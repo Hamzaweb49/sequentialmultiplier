@@ -1,0 +1,21 @@
+name: Verilog Simulation CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  simulate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Verilator
+      run: sudo apt-get install -y verilator
+
+    - name: Run Verilator Simulation
+      run: make sim TOOL=verilator
+
