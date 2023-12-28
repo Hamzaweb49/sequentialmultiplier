@@ -1,0 +1,161 @@
+m255
+K4
+z2
+!s11f MIXED_VERSIONS
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/hamza/verilogcodes/seqmux
+vAddModule
+Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
+Z2 !s110 1703772267
+!i10b 1
+!s100 WSmjSGFT1C6c27VoHLGCg0
+Z3 !s11b Dg1SIo80bB@j0V0VzS_@n1
+I>kfmVk5^D6U3S9aK>W=]W3
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+S1
+R0
+Z5 w1703772248
+Z6 8seqmul.sv
+Z7 Fseqmul.sv
+!i122 14
+L0 2 12
+Z8 OV;L;2020.1;71
+r1
+!s85 0
+31
+Z9 !s108 1703772267.000000
+!s107 tb_SequentialMultiplier.sv|seqmul.sv|
+Z10 !s90 seqmul.sv|tb_SequentialMultiplier.sv|
+!i113 1
+Z11 tCvgOpt 0
+n@add@module
+vController
+R1
+R2
+!i10b 1
+!s100 I0SHl_CK]9fXX6LdR^ebb1
+R3
+I7eaHQ>0LGN=DkFZ?JZF[G0
+R4
+S1
+R0
+R5
+R6
+R7
+!i122 14
+L0 122 75
+R8
+r1
+!s85 0
+31
+R9
+Z12 !s107 tb_SequentialMultiplier.sv|seqmul.sv|
+R10
+!i113 1
+R11
+n@controller
+vDatapath
+R1
+R2
+!i10b 1
+!s100 ]BRUNzTa23PTSjPRiJENh1
+R3
+IQRUKnMQW40Mg6R8dR4FUR2
+R4
+S1
+R0
+R5
+R6
+R7
+!i122 14
+L0 58 62
+R8
+r1
+!s85 0
+31
+R9
+R12
+R10
+!i113 1
+R11
+n@datapath
+vMuxModule
+R1
+R2
+!i10b 1
+!s100 1lFdzO?HI2PlA[S661F]@3
+R3
+IV77IXIHj3DYBmU>n`:AlS2
+R4
+S1
+R0
+R5
+R6
+R7
+!i122 14
+L0 46 10
+R8
+r1
+!s85 0
+31
+R9
+R12
+R10
+!i113 1
+R11
+n@mux@module
+vShiftModule
+R1
+R2
+!i10b 1
+!s100 cbeJj@R`deV1j^GH9<02l3
+R3
+IDdDM<N0U8EIo;JRk9^BGe0
+R4
+S1
+R0
+R5
+R6
+R7
+!i122 14
+L0 15 30
+R8
+r1
+!s85 0
+31
+R9
+R12
+R10
+!i113 1
+R11
+n@shift@module
+vtb_SequentialMultiplier
+R1
+R2
+!i10b 1
+!s100 ]1n6Obcz:FXFJJV_E><ac1
+R3
+Ifa1jRh?eSR15[A5hiY8PK3
+R4
+S1
+R0
+w1703772259
+8tb_SequentialMultiplier.sv
+Ftb_SequentialMultiplier.sv
+!i122 14
+L0 1 72
+R8
+r1
+!s85 0
+31
+R9
+R12
+R10
+!i113 1
+R11
+ntb_@sequential@multiplier

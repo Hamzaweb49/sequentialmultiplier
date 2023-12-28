@@ -1,0 +1,13 @@
+# vsim tb_SequentialMultiplier 
+# Start time: 19:04:32 on Dec 28,2023
+# Loading sv_std.std
+# Loading work.tb_SequentialMultiplier
+# Loading work.Datapath
+# Loading work.MuxModule
+# Loading work.AddModule
+# Loading work.ShiftModule
+# Loading work.Controller
+add wave -r /*
+run
+# End time: 19:07:56 on Dec 28,2023, Elapsed time: 0:03:24
+# Errors: 0, Warnings: 0
