@@ -3,11 +3,14 @@ module AddModule(
     input logic clk,
     input logic [15:0] multiplicand,
     input logic [15:0] accumulator,
+    input logic carryin,
     input logic add_signal,
-    output logic [15:0] accumulator_out
+    output logic [15:0] accumulator_out,
+    output logic carryout
 );
 always @(posedge clk) begin
     accumulator_out <= add_signal ? (multiplicand ^ accumulator) : accumulator;
+    carryout <= (multiplicand & accumulator) | (carryin & (multiplicand ^ accumulator));
 end
 
 endmodule
@@ -34,9 +37,9 @@ always @(posedge clk or posedge reset) begin
         shift_reg <= 16'b0;
         carry_reg <= 1'b0;
     end else if (enable) begin
-        carry_out <= carry_reg >> 1;
-        accumulator_out <= accumulator >> 1;
-        multiplier_out <= multiplier >> 1;
+        carry_out <= carry >> 1;
+        accumulator_out <= (accumulator >> 1) | ((carry & 1) << 15);
+        multiplier_out <= (multiplier >> 1) | ((accumulator & 1) << 15); 
     end
 end
 
@@ -71,19 +74,23 @@ module Datapath(
 );
 /* verilator lint_on MULTITOP */
 
-logic [15:0] shift_reg_shift;
-reg [15:0] shift_reg_mux;
+logic [15:0] shift_accumulator;
+reg [15:0] mux_output;
 reg [15:0] intermediate_accumulator;
 logic [15:0] shift_multiplier; 
-reg carry;
+reg carryin;
+reg carryout;
+reg shiftcarry;
 
 always @(posedge reset) begin
     // Add the following lines to initialize the variables to zero
-    shift_reg_shift <= 16'b0;
-    shift_reg_mux <= 16'b0;
+    shift_accumulator <= 16'b0;
+    mux_output <= 16'b0;
     intermediate_accumulator <= 16'b0;
     shift_multiplier <= 16'b0;
-    carry <= 1'b0;
+    carryin <= 1'b0;
+    carryout <= 1'b0;
+    shiftcarry <= 1'b0;
 end
 
 
@@ -92,13 +99,13 @@ MuxModule mux_inst(
     .multiplicand(multiplicand), 
     .zeros(16'b0),
     .mux_signal(mux_signal), 
-    .selected_input(shift_reg_mux)
+    .selected_input(mux_output)
 );
 
 
 // // Add Module instantiation
-AddModule add_inst(.clk(clk), .multiplicand(shift_reg_mux), .accumulator(accumulator),
-                  .add_signal(add_signal), .accumulator_out(intermediate_accumulator));
+AddModule add_inst(.clk(clk), .multiplicand(mux_output), .accumulator(accumulator), .carryin(carryin),
+                  .add_signal(add_signal), .accumulator_out(intermediate_accumulator), .carryout(carryout));
 
 // Shift Module instantiation
 ShiftModule shift_inst(
@@ -107,14 +114,19 @@ ShiftModule shift_inst(
     .enable(shift_signal),
     .accumulator(intermediate_accumulator), 
     .multiplier(multiplier),
-    .carry(carry), 
-    .accumulator_out(shift_reg_shift),
+    .carry(carryout), 
+    .accumulator_out(shift_accumulator),
     .multiplier_out(shift_multiplier), 
-    .carry_out(carry)
+    .carry_out(shiftcarry)
 );
 
+// always @(posedge clk) begin
+//     $display("The values of shift accumulator is %b:", shift_accumulator);
+//     $display("The values of shift multiplier is %b:", shift_multiplier);
+// end
+
 // Output product
-assign product = {shift_reg_shift, shift_multiplier};
+assign product = {shift_accumulator, shift_multiplier};
 
 endmodule
 
