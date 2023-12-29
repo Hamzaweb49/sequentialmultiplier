@@ -28,20 +28,23 @@ Vseqmul::~Vseqmul() {
     VL_DO_CLEAR(delete __VlSymsp, __VlSymsp = NULL);
 }
 
-void Vseqmul::_settle__TOP__4(Vseqmul__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vseqmul::_settle__TOP__4\n"); );
+void Vseqmul::_settle__TOP__5(Vseqmul__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vseqmul::_settle__TOP__5\n"); );
     Vseqmul* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlTOPp->product = (((IData)(vlTOPp->Datapath__DOT__shift_inst__DOT__shift_reg) 
+    vlTOPp->product = (((IData)(vlTOPp->Datapath__DOT__shift_accumulator) 
                         << 0x10U) | (IData)(vlTOPp->Datapath__DOT__shift_multiplier));
+    vlTOPp->Datapath__DOT__mux_output = ((IData)(vlTOPp->Datapath__02Emux_signal)
+                                          ? (IData)(vlTOPp->multiplicand)
+                                          : 0U);
 }
 
 void Vseqmul::_eval_initial(Vseqmul__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vseqmul::_eval_initial\n"); );
     Vseqmul* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlTOPp->__Vclklast__TOP__Datapath__02Eclk = vlTOPp->Datapath__02Eclk;
     vlTOPp->__Vclklast__TOP__Datapath__02Ereset = vlTOPp->Datapath__02Ereset;
+    vlTOPp->__Vclklast__TOP__Datapath__02Eclk = vlTOPp->Datapath__02Eclk;
     vlTOPp->__Vclklast__TOP__Controller__02Eclk = vlTOPp->Controller__02Eclk;
     vlTOPp->__Vclklast__TOP__Controller__02Ereset = vlTOPp->Controller__02Ereset;
 }
@@ -57,7 +60,7 @@ void Vseqmul::_eval_settle(Vseqmul__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vseqmul::_eval_settle\n"); );
     Vseqmul* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlTOPp->_settle__TOP__4(vlSymsp);
+    vlTOPp->_settle__TOP__5(vlSymsp);
 }
 
 void Vseqmul::_ctor_var_reset() {
@@ -82,11 +85,14 @@ void Vseqmul::_ctor_var_reset() {
     product = VL_RAND_RESET_I(32);
     Controller__DOT__state = VL_RAND_RESET_I(2);
     Controller__DOT__count = VL_RAND_RESET_I(4);
+    Datapath__DOT__shift_accumulator = VL_RAND_RESET_I(16);
+    Datapath__DOT__mux_output = VL_RAND_RESET_I(16);
     Datapath__DOT__intermediate_accumulator = VL_RAND_RESET_I(16);
     Datapath__DOT__shift_multiplier = VL_RAND_RESET_I(16);
-    Datapath__DOT__shift_inst__DOT__shift_reg = VL_RAND_RESET_I(16);
-    Datapath__DOT__shift_inst__DOT__carry_reg = VL_RAND_RESET_I(1);
-    { int __Vi0=0; for (; __Vi0<2; ++__Vi0) {
+    Datapath__DOT__carryin = VL_RAND_RESET_I(1);
+    Datapath__DOT__carryout = VL_RAND_RESET_I(1);
+    Datapath__DOT__shiftcarry = VL_RAND_RESET_I(1);
+    { int __Vi0=0; for (; __Vi0<1; ++__Vi0) {
             __Vm_traceActivity[__Vi0] = VL_RAND_RESET_I(1);
     }}
 }

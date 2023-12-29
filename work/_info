@@ -11,24 +11,24 @@ cModel Technology
 Z0 d/home/hamza/verilogcodes/seqmux
 vAddModule
 Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
-Z2 !s110 1703782359
+Z2 !s110 1703825773
 !i10b 1
-!s100 BNf=YIWbDVMoiXcU_Ff?:0
+!s100 45j_Ef6WZ=zIV`Lc@i`aa1
 Z3 !s11b Dg1SIo80bB@j0V0VzS_@n1
-I3;nh<62mS5gI_Yi<_VgKk3
+I=LS:`]lZS9R]VUMPP_4jc1
 Z4 VDg1SIo80bB@j0V0VzS_@n1
 S1
 R0
-Z5 w1703782352
+Z5 w1703825755
 Z6 8seqmul.sv
 Z7 Fseqmul.sv
-!i122 37
-L0 2 15
+!i122 48
+L0 9 17
 Z8 OV;L;2020.1;71
 r1
 !s85 0
 31
-Z9 !s108 1703782359.000000
+Z9 !s108 1703825773.000000
 !s107 tb_SequentialMultiplier.sv|seqmul.sv|
 Z10 !s90 seqmul.sv|tb_SequentialMultiplier.sv|
 !i113 1
@@ -38,17 +38,17 @@ vController
 R1
 R2
 !i10b 1
-!s100 TRBZbBd8AY_FVd8g1PdER1
+!s100 09c8Y0Hbg5bO?`KMl=N:=0
 R3
-Icki[<H[9LmPg6_hOV=MHJ1
+IEa@9l0A?9:^LYd>UA`f482
 R4
 S1
 R0
 R5
 R6
 R7
-!i122 37
-L0 134 69
+!i122 48
+L0 131 60
 R8
 r1
 !s85 0
@@ -63,17 +63,17 @@ vDatapath
 R1
 R2
 !i10b 1
-!s100 <RFW5@IG6W1J5VKj`4Xh=1
+!s100 lh0_:l=Q74?8iZ7m9VanD0
 R3
-Ig?0]8W]o:iYK3E@HkMge13
+I_nTIdBf5b5Q8iddXdbM6>3
 R4
 S1
 R0
 R5
 R6
 R7
-!i122 37
-L0 61 71
+!i122 48
+L0 67 62
 R8
 r1
 !s85 0
@@ -88,17 +88,17 @@ vMuxModule
 R1
 R2
 !i10b 1
-!s100 D`69_iThY7cieVnQ@GF:31
+!s100 @g^8Y>DN_IP7f7czEbb2o1
 R3
-IkeIa0O6I0VOoka6Nl^:`E0
+Ij5@:z@NBWA=e`kNB3zncZ1
 R4
 S1
 R0
 R5
 R6
 R7
-!i122 37
-L0 49 10
+!i122 48
+L0 56 10
 R8
 r1
 !s85 0
@@ -113,17 +113,17 @@ vShiftModule
 R1
 R2
 !i10b 1
-!s100 OGDR3SH`j;iC5CC?;`B8k2
+!s100 HF3c`4XLI`BD4CDENPQKW2
 R3
-Il5:iIcUA1]kJX8@_ROf7;1
+IkK0F:ZV6HWC?XnNOe_4b00
 R4
 S1
 R0
 R5
 R6
 R7
-!i122 37
-L0 18 30
+!i122 48
+L0 27 28
 R8
 r1
 !s85 0
@@ -138,17 +138,17 @@ vtb_SequentialMultiplier
 R1
 R2
 !i10b 1
-!s100 ]1n6Obcz:FXFJJV_E><ac1
+!s100 bjjlc8CgQ<D2EHBD>IBS32
 R3
-Ifa1jRh?eSR15[A5hiY8PK3
+I]KIn]Ei;klHM9ai?X:gYS2
 R4
 S1
 R0
-w1703781270
+w1703825526
 8tb_SequentialMultiplier.sv
 Ftb_SequentialMultiplier.sv
-!i122 37
-L0 1 72
+!i122 48
+L0 5 80
 R8
 r1
 !s85 0
