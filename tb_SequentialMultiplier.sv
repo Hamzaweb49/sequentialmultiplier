@@ -68,16 +68,6 @@ initial begin
     #100 multiplicand = 16'hB5B5;
     multiplier = 16'h1234;
 
-    // #100
-
-    // start = 0;
-    // reset = 1;
-
-    // #10 reset = 1;
-    // start = 1;
-
-    // multiplicand = 16'h0031;
-    // multiplier = 16'h0001;
     #1000 $finish; 
 end
 

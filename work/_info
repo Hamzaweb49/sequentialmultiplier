@@ -11,28 +11,28 @@ cModel Technology
 Z0 d/home/hamza/verilogcodes/seqmux
 vAddModule
 Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
-Z2 !s110 1703829060
+Z2 !s110 1703854129
 !i10b 1
-!s100 45j_Ef6WZ=zIV`Lc@i`aa1
+!s100 1e=hjL?DB2<>6zkZT=9:<1
 Z3 !s11b Dg1SIo80bB@j0V0VzS_@n1
-I=LS:`]lZS9R]VUMPP_4jc1
+I0`dO5=m3PiGHE`SKX1fNA1
 Z4 VDg1SIo80bB@j0V0VzS_@n1
 S1
 R0
-Z5 w1703825755
+Z5 w1703854103
 Z6 8seqmul.sv
 Z7 Fseqmul.sv
-!i122 49
-L0 9 17
+!i122 52
+L0 72 17
 Z8 OV;L;2020.1;71
 r1
 !s85 0
 31
-Z9 !s108 1703829060.000000
-!s107 tb_SequentialMultiplier.sv|seqmul.sv|
-Z10 !s90 seqmul.sv|tb_SequentialMultiplier.sv|
+Z9 !s108 1703854129.000000
+Z10 !s107 tb_SequentialMultiplier.sv|seqmul.sv|
+Z11 !s90 seqmul.sv|tb_SequentialMultiplier.sv|
 !i113 1
-Z11 tCvgOpt 0
+Z12 tCvgOpt 0
 n@add@module
 vController
 R1
@@ -47,115 +47,140 @@ R0
 R5
 R6
 R7
-!i122 49
+!i122 52
 L0 131 60
 R8
 r1
 !s85 0
 31
 R9
-Z12 !s107 tb_SequentialMultiplier.sv|seqmul.sv|
 R10
-!i113 1
 R11
+!i113 1
+R12
 n@controller
 vDatapath
 R1
 R2
 !i10b 1
-!s100 lh0_:l=Q74?8iZ7m9VanD0
+!s100 8=Zb<2Me8MHUd4@z8k>UF2
 R3
-I_nTIdBf5b5Q8iddXdbM6>3
+INbPIW]>:[?S9=Bb?8mJA91
 R4
 S1
 R0
 R5
 R6
 R7
-!i122 49
-L0 67 62
+!i122 52
+L0 9 62
 R8
 r1
 !s85 0
 31
 R9
-R12
 R10
-!i113 1
 R11
+!i113 1
+R12
 n@datapath
 vMuxModule
 R1
 R2
 !i10b 1
-!s100 @g^8Y>DN_IP7f7czEbb2o1
+!s100 Od^8M2_ZLg89UljIBEFT83
 R3
-Ij5@:z@NBWA=e`kNB3zncZ1
+IT6lo6e25iWC>G4W4z;Y<_2
 R4
 S1
 R0
 R5
 R6
 R7
-!i122 49
-L0 56 10
+!i122 52
+L0 119 10
 R8
 r1
 !s85 0
 31
 R9
-R12
 R10
-!i113 1
 R11
+!i113 1
+R12
 n@mux@module
 vShiftModule
 R1
 R2
 !i10b 1
-!s100 HF3c`4XLI`BD4CDENPQKW2
+!s100 F4KEz42VeMFFJ1JXnX5Xj0
 R3
-IkK0F:ZV6HWC?XnNOe_4b00
+I^ZaNhg]>z^Ah;<W9LzKH_2
 R4
 S1
 R0
 R5
 R6
 R7
-!i122 49
-L0 27 28
+!i122 52
+L0 90 28
 R8
 r1
 !s85 0
 31
 R9
-R12
 R10
-!i113 1
 R11
+!i113 1
+R12
 n@shift@module
 vtb_SequentialMultiplier
 R1
 R2
 !i10b 1
-!s100 bjjlc8CgQ<D2EHBD>IBS32
+!s100 >OS:LjgaZ_D596L6CZ:^f3
 R3
-I]KIn]Ei;klHM9ai?X:gYS2
+IOBRSMTPld2cQOJB_T]2`c3
 R4
 S1
 R0
-w1703825526
+w1703853864
 8tb_SequentialMultiplier.sv
 Ftb_SequentialMultiplier.sv
-!i122 49
-L0 5 80
+!i122 52
+L0 5 70
 R8
 r1
 !s85 0
 31
 R9
-R12
 R10
-!i113 1
 R11
+!i113 1
+R12
 ntb_@sequential@multiplier
+vTopModule
+R1
+!s110 1703853825
+!i10b 1
+!s100 JHUhmD=DA9Qa43jdgR_Ik0
+R3
+I6ZLnSV4>K2PIUl=YP9bkY3
+R4
+S1
+R0
+w1703853744
+R6
+R7
+!i122 50
+L0 9 45
+R8
+r1
+!s85 0
+31
+!s108 1703853825.000000
+R10
+R11
+!i113 1
+R12
+n@top@module

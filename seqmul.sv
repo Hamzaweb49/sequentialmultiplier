@@ -6,64 +6,6 @@
 /* verilator lint_off MULTITOP */
 /* verilator lint_off BLKANDNBLK  */
 
-module AddModule(
-    input logic clk,
-    input logic [15:0] multiplicand,
-    input logic [15:0] accumulator,
-    input logic carryin,
-    input logic add_signal,
-    output logic [15:0] accumulator_out,
-    output logic carryout
-);
-
-always @(posedge clk) begin
-    accumulator_out <= add_signal ? (multiplicand ^ accumulator) : accumulator;
-    carryout <= (multiplicand & accumulator) | (carryin & (multiplicand ^ accumulator));
-end
-
-
-endmodule
-
-module ShiftModule(
-    input logic clk,
-    input logic reset,
-    input logic enable,
-    input logic [15:0] accumulator,
-    input logic [15:0] multiplier,
-    input logic [0:0] carry,
-    output logic [15:0] accumulator_out,
-    output reg [15:0] multiplier_out,
-    output logic [0:0] carry_out
-);
-
-
-always @(posedge clk or posedge reset) begin
-    if (reset) begin
-        carry_out <= 0;
-        accumulator_out <= 0;
-        multiplier_out <= 0;
-    end
-    else if (enable) begin
-        carry_out <= carry >> 1;
-        accumulator_out <= (accumulator >> 1) | ((carry & 1) << 15);
-        multiplier_out <= (multiplier >> 1) | ((accumulator & 1) << 15); 
-    end
-end
-
-
-endmodule
-
-module MuxModule(
-    input logic [15:0] multiplicand,
-    input logic [15:0] zeros,
-    input logic mux_signal,
-    output logic [15:0] selected_input
-);
-
-assign selected_input = mux_signal ? multiplicand : zeros;
-
-endmodule
-
 module Datapath(
     input logic clk,
     input logic reset,
@@ -124,6 +66,64 @@ ShiftModule shift_inst(
 
 // Output product
 assign product = {shift_accumulator, shift_multiplier};
+
+endmodule
+
+module AddModule(
+    input logic clk,
+    input logic [15:0] multiplicand,
+    input logic [15:0] accumulator,
+    input logic carryin,
+    input logic add_signal,
+    output logic [15:0] accumulator_out,
+    output logic carryout
+);
+
+always @(posedge clk) begin
+    accumulator_out <= add_signal ? (multiplicand ^ accumulator) : accumulator;
+    carryout <= (multiplicand & accumulator) | (carryin & (multiplicand ^ accumulator));
+end
+
+
+endmodule
+
+module ShiftModule(
+    input logic clk,
+    input logic reset,
+    input logic enable,
+    input logic [15:0] accumulator,
+    input logic [15:0] multiplier,
+    input logic [0:0] carry,
+    output logic [15:0] accumulator_out,
+    output reg [15:0] multiplier_out,
+    output logic [0:0] carry_out
+);
+
+
+always @(posedge clk or posedge reset) begin
+    if (reset) begin
+        carry_out <= 0;
+        accumulator_out <= 0;
+        multiplier_out <= 0;
+    end
+    else if (enable) begin
+        carry_out <= carry >> 1;
+        accumulator_out <= (accumulator >> 1) | ((carry & 1) << 15);
+        multiplier_out <= (multiplier >> 1) | ((accumulator & 1) << 15); 
+    end
+end
+
+
+endmodule
+
+module MuxModule(
+    input logic [15:0] multiplicand,
+    input logic [15:0] zeros,
+    input logic mux_signal,
+    output logic [15:0] selected_input
+);
+
+assign selected_input = mux_signal ? multiplicand : zeros;
 
 endmodule
 
@@ -189,9 +189,6 @@ end
 
 endmodule
 
-// always @(posedge clk) begin
-// $display("The values of intermediate accumulator is %b:", intermediate_accumulator);
-// end
 /* verilator lint_on MULTIDRIVEN */
 /* verilator lint_on BLKANDNBLK  */
 /* verilator lint_on MULTITOP */
