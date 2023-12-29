@@ -31,7 +31,7 @@ void Vseqmul::eval_step() {
             Verilated::debug(1);
             __Vchange = _change_request(vlSymsp);
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("seqmul.v", 119, "",
+            VL_FATAL_MT("seqmul.sv", 131, "",
                 "Verilated model didn't converge\n"
                 "- See DIDNOTCONVERGE in the Verilator manual");
         } else {
@@ -57,7 +57,7 @@ void Vseqmul::_eval_initial_loop(Vseqmul__Syms* __restrict vlSymsp) {
             Verilated::debug(1);
             __Vchange = _change_request(vlSymsp);
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("seqmul.v", 119, "",
+            VL_FATAL_MT("seqmul.sv", 131, "",
                 "Verilated model didn't DC converge\n"
                 "- See DIDNOTCONVERGE in the Verilator manual");
         } else {
@@ -71,30 +71,34 @@ VL_INLINE_OPT void Vseqmul::_sequent__TOP__2(Vseqmul__Syms* __restrict vlSymsp) 
     Vseqmul* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     if (vlTOPp->Datapath__02Ereset) {
-        vlTOPp->Datapath__DOT__shift_inst__DOT__carry_reg = 0U;
+        vlTOPp->Datapath__DOT__shiftcarry = 0U;
     } else {
         if (vlTOPp->Datapath__02Eshift_signal) {
-            vlTOPp->Datapath__DOT__shift_inst__DOT__carry_reg = 0U;
-        }
-    }
-    if ((1U & (~ (IData)(vlTOPp->Datapath__02Ereset)))) {
-        if (vlTOPp->Datapath__02Eshift_signal) {
-            vlTOPp->Datapath__DOT__shift_multiplier 
-                = (0xffffU & ((IData)(vlTOPp->Datapath__02Emultiplier) 
-                              >> 1U));
+            vlTOPp->Datapath__DOT__shiftcarry = 0U;
         }
     }
     if (vlTOPp->Datapath__02Ereset) {
-        vlTOPp->Datapath__DOT__shift_inst__DOT__shift_reg = 0U;
+        vlTOPp->Datapath__DOT__shift_multiplier = 0U;
     } else {
         if (vlTOPp->Datapath__02Eshift_signal) {
-            vlTOPp->Datapath__DOT__shift_inst__DOT__shift_reg 
-                = (0xffffU & ((IData)(vlTOPp->Datapath__DOT__intermediate_accumulator) 
-                              >> 1U));
+            vlTOPp->Datapath__DOT__shift_multiplier 
+                = (0xffffU & (((IData)(vlTOPp->Datapath__02Emultiplier) 
+                               >> 1U) | (0x8000U & 
+                                         ((IData)(vlTOPp->Datapath__DOT__intermediate_accumulator) 
+                                          << 0xfU))));
         }
     }
-    vlTOPp->product = (((IData)(vlTOPp->Datapath__DOT__shift_inst__DOT__shift_reg) 
-                        << 0x10U) | (IData)(vlTOPp->Datapath__DOT__shift_multiplier));
+    if (vlTOPp->Datapath__02Ereset) {
+        vlTOPp->Datapath__DOT__shift_accumulator = 0U;
+    } else {
+        if (vlTOPp->Datapath__02Eshift_signal) {
+            vlTOPp->Datapath__DOT__shift_accumulator 
+                = (0xffffU & (((IData)(vlTOPp->Datapath__DOT__intermediate_accumulator) 
+                               >> 1U) | (0x8000U & 
+                                         ((IData)(vlTOPp->Datapath__DOT__carryout) 
+                                          << 0xfU))));
+        }
+    }
 }
 
 VL_INLINE_OPT void Vseqmul::_sequent__TOP__3(Vseqmul__Syms* __restrict vlSymsp) {
@@ -103,62 +107,90 @@ VL_INLINE_OPT void Vseqmul::_sequent__TOP__3(Vseqmul__Syms* __restrict vlSymsp) 
     // Variables
     CData/*1:0*/ __Vdly__Controller__DOT__state;
     CData/*3:0*/ __Vdly__Controller__DOT__count;
-    CData/*0:0*/ __Vdly__Controller__02Eadd_signal;
-    CData/*0:0*/ __Vdly__Controller__02Emux_signal;
     // Body
     __Vdly__Controller__DOT__count = vlTOPp->Controller__DOT__count;
     __Vdly__Controller__DOT__state = vlTOPp->Controller__DOT__state;
-    __Vdly__Controller__02Emux_signal = vlTOPp->Controller__02Emux_signal;
-    __Vdly__Controller__02Eadd_signal = vlTOPp->Controller__02Eadd_signal;
     if (vlTOPp->Controller__02Ereset) {
         __Vdly__Controller__DOT__state = 0U;
         __Vdly__Controller__DOT__count = 0U;
-        __Vdly__Controller__02Eadd_signal = 0U;
+        vlTOPp->Controller__02Eadd_signal = 0U;
         vlTOPp->Controller__02Eshift_signal = 0U;
-        __Vdly__Controller__02Emux_signal = 0U;
+        vlTOPp->Controller__02Emux_signal = 0U;
     } else {
         if ((2U & (IData)(vlTOPp->Controller__DOT__state))) {
             if ((1U & (IData)(vlTOPp->Controller__DOT__state))) {
-                __Vdly__Controller__DOT__state = 0U;
-            } else {
                 __Vdly__Controller__DOT__count = (0xfU 
                                                   & ((IData)(1U) 
                                                      + (IData)(vlTOPp->Controller__DOT__count)));
                 vlTOPp->Controller__02Eshift_signal = 1U;
                 __Vdly__Controller__DOT__state = 1U;
+            } else {
+                vlTOPp->Controller__02Eadd_signal = 1U;
+                __Vdly__Controller__DOT__state = 3U;
             }
         } else {
             if ((1U & (IData)(vlTOPp->Controller__DOT__state))) {
                 vlTOPp->Controller__02Emux_signal = 
                     (1U & (IData)(vlTOPp->Controller__02Emultiplier));
-                vlTOPp->Controller__02Eadd_signal = 1U;
                 __Vdly__Controller__DOT__state = 2U;
             } else {
                 if (vlTOPp->Controller__02Estart) {
-                    __Vdly__Controller__DOT__state = 1U;
                     __Vdly__Controller__DOT__count = 0U;
-                    __Vdly__Controller__02Eadd_signal = 0U;
+                    vlTOPp->Controller__02Eadd_signal = 0U;
                     vlTOPp->Controller__02Eshift_signal = 0U;
-                    __Vdly__Controller__02Emux_signal = 0U;
+                    vlTOPp->Controller__02Emux_signal = 0U;
+                    __Vdly__Controller__DOT__state = 1U;
                 }
             }
         }
     }
     vlTOPp->Controller__DOT__state = __Vdly__Controller__DOT__state;
     vlTOPp->Controller__DOT__count = __Vdly__Controller__DOT__count;
-    vlTOPp->Controller__02Eadd_signal = __Vdly__Controller__02Eadd_signal;
-    vlTOPp->Controller__02Emux_signal = __Vdly__Controller__02Emux_signal;
 }
 
-VL_INLINE_OPT void Vseqmul::_sequent__TOP__5(Vseqmul__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vseqmul::_sequent__TOP__5\n"); );
+VL_INLINE_OPT void Vseqmul::_sequent__TOP__4(Vseqmul__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vseqmul::_sequent__TOP__4\n"); );
     Vseqmul* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->Datapath__DOT__intermediate_accumulator 
         = ((IData)(vlTOPp->Datapath__02Eadd_signal)
-            ? (((IData)(vlTOPp->Datapath__02Emux_signal)
-                 ? (IData)(vlTOPp->multiplicand) : 0U) 
+            ? ((IData)(vlTOPp->Datapath__DOT__mux_output) 
                ^ (IData)(vlTOPp->accumulator)) : (IData)(vlTOPp->accumulator));
+    vlTOPp->Datapath__DOT__carryout = (1U & (((IData)(vlTOPp->Datapath__DOT__mux_output) 
+                                              & (IData)(vlTOPp->accumulator)) 
+                                             | ((IData)(vlTOPp->Datapath__DOT__carryin) 
+                                                & ((IData)(vlTOPp->Datapath__DOT__mux_output) 
+                                                   ^ (IData)(vlTOPp->accumulator)))));
+}
+
+VL_INLINE_OPT void Vseqmul::_sequent__TOP__6(Vseqmul__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vseqmul::_sequent__TOP__6\n"); );
+    Vseqmul* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Body
+    vlTOPp->Datapath__DOT__shiftcarry = 0U;
+    vlTOPp->Datapath__DOT__shift_multiplier = 0U;
+    vlTOPp->Datapath__DOT__shift_accumulator = 0U;
+    vlTOPp->Datapath__DOT__intermediate_accumulator = 0U;
+    vlTOPp->Datapath__DOT__carryout = 0U;
+    vlTOPp->Datapath__DOT__carryin = 0U;
+    vlTOPp->Datapath__DOT__mux_output = 0U;
+}
+
+VL_INLINE_OPT void Vseqmul::_combo__TOP__7(Vseqmul__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vseqmul::_combo__TOP__7\n"); );
+    Vseqmul* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Body
+    vlTOPp->Datapath__DOT__mux_output = ((IData)(vlTOPp->Datapath__02Emux_signal)
+                                          ? (IData)(vlTOPp->multiplicand)
+                                          : 0U);
+}
+
+VL_INLINE_OPT void Vseqmul::_sequent__TOP__8(Vseqmul__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vseqmul::_sequent__TOP__8\n"); );
+    Vseqmul* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Body
+    vlTOPp->product = (((IData)(vlTOPp->Datapath__DOT__shift_accumulator) 
+                        << 0x10U) | (IData)(vlTOPp->Datapath__DOT__shift_multiplier));
 }
 
 void Vseqmul::_eval(Vseqmul__Syms* __restrict vlSymsp) {
@@ -168,7 +200,6 @@ void Vseqmul::_eval(Vseqmul__Syms* __restrict vlSymsp) {
     if ((((IData)(vlTOPp->Datapath__02Eclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__Datapath__02Eclk))) 
          | ((IData)(vlTOPp->Datapath__02Ereset) & (~ (IData)(vlTOPp->__Vclklast__TOP__Datapath__02Ereset))))) {
         vlTOPp->_sequent__TOP__2(vlSymsp);
-        vlTOPp->__Vm_traceActivity[1U] = 1U;
     }
     if ((((IData)(vlTOPp->Controller__02Eclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__Controller__02Eclk))) 
          | ((IData)(vlTOPp->Controller__02Ereset) & 
@@ -176,11 +207,19 @@ void Vseqmul::_eval(Vseqmul__Syms* __restrict vlSymsp) {
         vlTOPp->_sequent__TOP__3(vlSymsp);
     }
     if (((IData)(vlTOPp->Datapath__02Eclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__Datapath__02Eclk)))) {
-        vlTOPp->_sequent__TOP__5(vlSymsp);
+        vlTOPp->_sequent__TOP__4(vlSymsp);
+    }
+    if (((IData)(vlTOPp->Datapath__02Ereset) & (~ (IData)(vlTOPp->__Vclklast__TOP__Datapath__02Ereset)))) {
+        vlTOPp->_sequent__TOP__6(vlSymsp);
+    }
+    vlTOPp->_combo__TOP__7(vlSymsp);
+    if ((((IData)(vlTOPp->Datapath__02Eclk) & (~ (IData)(vlTOPp->__Vclklast__TOP__Datapath__02Eclk))) 
+         | ((IData)(vlTOPp->Datapath__02Ereset) & (~ (IData)(vlTOPp->__Vclklast__TOP__Datapath__02Ereset))))) {
+        vlTOPp->_sequent__TOP__8(vlSymsp);
     }
     // Final
-    vlTOPp->__Vclklast__TOP__Datapath__02Eclk = vlTOPp->Datapath__02Eclk;
     vlTOPp->__Vclklast__TOP__Datapath__02Ereset = vlTOPp->Datapath__02Ereset;
+    vlTOPp->__Vclklast__TOP__Datapath__02Eclk = vlTOPp->Datapath__02Eclk;
     vlTOPp->__Vclklast__TOP__Controller__02Eclk = vlTOPp->Controller__02Eclk;
     vlTOPp->__Vclklast__TOP__Controller__02Ereset = vlTOPp->Controller__02Ereset;
 }

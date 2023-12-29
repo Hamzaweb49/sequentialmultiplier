@@ -46,18 +46,21 @@ VL_MODULE(Vseqmul) {
     // Internals; generally not touched by application code
     CData/*1:0*/ Controller__DOT__state;
     CData/*3:0*/ Controller__DOT__count;
-    CData/*0:0*/ Datapath__DOT__shift_inst__DOT__carry_reg;
+    CData/*0:0*/ Datapath__DOT__carryin;
+    CData/*0:0*/ Datapath__DOT__carryout;
+    CData/*0:0*/ Datapath__DOT__shiftcarry;
+    SData/*15:0*/ Datapath__DOT__shift_accumulator;
+    SData/*15:0*/ Datapath__DOT__mux_output;
     SData/*15:0*/ Datapath__DOT__intermediate_accumulator;
     SData/*15:0*/ Datapath__DOT__shift_multiplier;
-    SData/*15:0*/ Datapath__DOT__shift_inst__DOT__shift_reg;
     
     // LOCAL VARIABLES
     // Internals; generally not touched by application code
-    CData/*0:0*/ __Vclklast__TOP__Datapath__02Eclk;
     CData/*0:0*/ __Vclklast__TOP__Datapath__02Ereset;
+    CData/*0:0*/ __Vclklast__TOP__Datapath__02Eclk;
     CData/*0:0*/ __Vclklast__TOP__Controller__02Eclk;
     CData/*0:0*/ __Vclklast__TOP__Controller__02Ereset;
-    CData/*0:0*/ __Vm_traceActivity[2];
+    CData/*0:0*/ __Vm_traceActivity[1];
     
     // INTERNAL VARIABLES
     // Internals; generally not touched by application code
@@ -95,6 +98,9 @@ VL_MODULE(Vseqmul) {
   private:
     static QData _change_request(Vseqmul__Syms* __restrict vlSymsp);
     static QData _change_request_1(Vseqmul__Syms* __restrict vlSymsp);
+  public:
+    static void _combo__TOP__7(Vseqmul__Syms* __restrict vlSymsp);
+  private:
     void _ctor_var_reset() VL_ATTR_COLD;
   public:
     static void _eval(Vseqmul__Syms* __restrict vlSymsp);
@@ -107,8 +113,10 @@ VL_MODULE(Vseqmul) {
     static void _eval_settle(Vseqmul__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _sequent__TOP__2(Vseqmul__Syms* __restrict vlSymsp);
     static void _sequent__TOP__3(Vseqmul__Syms* __restrict vlSymsp);
-    static void _sequent__TOP__5(Vseqmul__Syms* __restrict vlSymsp);
-    static void _settle__TOP__4(Vseqmul__Syms* __restrict vlSymsp) VL_ATTR_COLD;
+    static void _sequent__TOP__4(Vseqmul__Syms* __restrict vlSymsp);
+    static void _sequent__TOP__6(Vseqmul__Syms* __restrict vlSymsp);
+    static void _sequent__TOP__8(Vseqmul__Syms* __restrict vlSymsp);
+    static void _settle__TOP__5(Vseqmul__Syms* __restrict vlSymsp) VL_ATTR_COLD;
   private:
     static void traceChgSub0(void* userp, VerilatedVcd* tracep);
     static void traceChgTop0(void* userp, VerilatedVcd* tracep);

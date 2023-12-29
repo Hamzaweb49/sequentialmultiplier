@@ -1,4 +1,11 @@
 /* verilator lint_off DECLFILENAME */
+/* verilator lint_off MULTIDRIVEN */
+/* verilator lint_off WIDTH */
+/* verilator lint_off UNUSED */
+/* verilator lint_off BLKSEQ */
+/* verilator lint_off MULTITOP */
+/* verilator lint_off BLKANDNBLK  */
+
 module AddModule(
     input logic clk,
     input logic [15:0] multiplicand,
@@ -8,10 +15,12 @@ module AddModule(
     output logic [15:0] accumulator_out,
     output logic carryout
 );
+
 always @(posedge clk) begin
     accumulator_out <= add_signal ? (multiplicand ^ accumulator) : accumulator;
     carryout <= (multiplicand & accumulator) | (carryin & (multiplicand ^ accumulator));
 end
+
 
 endmodule
 
@@ -21,22 +30,20 @@ module ShiftModule(
     input logic enable,
     input logic [15:0] accumulator,
     input logic [15:0] multiplier,
-    /* verilator lint_off UNUSED */
     input logic [0:0] carry,
-    /* verilator lint_on UNUSED */
     output logic [15:0] accumulator_out,
     output reg [15:0] multiplier_out,
     output logic [0:0] carry_out
 );
 
-reg [15:0] shift_reg;
-reg carry_reg;
 
 always @(posedge clk or posedge reset) begin
     if (reset) begin
-        shift_reg <= 16'b0;
-        carry_reg <= 1'b0;
-    end else if (enable) begin
+        carry_out <= 0;
+        accumulator_out <= 0;
+        multiplier_out <= 0;
+    end
+    else if (enable) begin
         carry_out <= carry >> 1;
         accumulator_out <= (accumulator >> 1) | ((carry & 1) << 15);
         multiplier_out <= (multiplier >> 1) | ((accumulator & 1) << 15); 
@@ -57,13 +64,10 @@ assign selected_input = mux_signal ? multiplicand : zeros;
 
 endmodule
 
-/* verilator lint_off MULTITOP */
 module Datapath(
     input logic clk,
     input logic reset,
-    /* verilator lint_off UNUSED */
     input logic start,
-    /* verilator lint_on UNUSED */
     input logic add_signal,
     input logic shift_signal,
     input logic mux_signal,
@@ -72,18 +76,16 @@ module Datapath(
     input logic [15:0] multiplier,
     output logic [31:0] product
 );
-/* verilator lint_on MULTITOP */
 
 logic [15:0] shift_accumulator;
 reg [15:0] mux_output;
-reg [15:0] intermediate_accumulator;
+logic [15:0] intermediate_accumulator;
 logic [15:0] shift_multiplier; 
-reg carryin;
-reg carryout;
-reg shiftcarry;
+logic carryin;
+logic carryout;
+logic shiftcarry;
 
 always @(posedge reset) begin
-    // Add the following lines to initialize the variables to zero
     shift_accumulator <= 16'b0;
     mux_output <= 16'b0;
     intermediate_accumulator <= 16'b0;
@@ -120,31 +122,21 @@ ShiftModule shift_inst(
     .carry_out(shiftcarry)
 );
 
-// always @(posedge clk) begin
-//     $display("The values of shift accumulator is %b:", shift_accumulator);
-//     $display("The values of shift multiplier is %b:", shift_multiplier);
-// end
-
 // Output product
 assign product = {shift_accumulator, shift_multiplier};
 
 endmodule
 
-/* verilator lint_off MULTITOP */
+
 module Controller(
     input logic clk,
     input logic reset,
     input logic start,
-    /* verilator lint_off UNUSED */
     input logic [15:0] multiplier,
-    /* verilator lint_on UNUSED */
-    // verilator lint_off BLKANDNBLK 
     output reg add_signal,
     output reg shift_signal,
     output reg mux_signal
-    // verilator lint_on BLKANDNBLK 
 );
-/* verilator lint_on MULTITOP */
 
 parameter IDLE = 2'b00;
 parameter CHECKLSB = 2'b01;
@@ -178,13 +170,10 @@ always @(posedge clk or posedge reset) begin
                 state <= ADD;
             end
             ADD: begin
-            /* verilator lint_off BLKSEQ */
                 add_signal <= 1'b1;
                 state <= SHIFT;
-            /* verilator lint_on BLKSEQ */
             end
             SHIFT: begin
-            /* verilator lint_off WIDTH */
                 if (count < 16) begin
                     count <= count + 1;
                     shift_signal <= 1'b1;
@@ -192,7 +181,6 @@ always @(posedge clk or posedge reset) begin
                 end else begin
                     state <= IDLE;
                 end
-             /* verilator lint_on WIDTH */
             end
             default: state <= IDLE;
         endcase
@@ -204,4 +192,10 @@ endmodule
 // always @(posedge clk) begin
 // $display("The values of intermediate accumulator is %b:", intermediate_accumulator);
 // end
+/* verilator lint_on MULTIDRIVEN */
+/* verilator lint_on BLKANDNBLK  */
+/* verilator lint_on MULTITOP */
+/* verilator lint_on BLKSEQ */
+/* verilator lint_on UNUSED */
+/* verilator lint_on WIDTH */
 /* verilator lint_on DECLFILENAME */
