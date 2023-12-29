@@ -11,7 +11,7 @@ cModel Technology
 Z0 d/home/hamza/verilogcodes/seqmux
 vAddModule
 Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
-Z2 !s110 1703825773
+Z2 !s110 1703829060
 !i10b 1
 !s100 45j_Ef6WZ=zIV`Lc@i`aa1
 Z3 !s11b Dg1SIo80bB@j0V0VzS_@n1
@@ -22,13 +22,13 @@ R0
 Z5 w1703825755
 Z6 8seqmul.sv
 Z7 Fseqmul.sv
-!i122 48
+!i122 49
 L0 9 17
 Z8 OV;L;2020.1;71
 r1
 !s85 0
 31
-Z9 !s108 1703825773.000000
+Z9 !s108 1703829060.000000
 !s107 tb_SequentialMultiplier.sv|seqmul.sv|
 Z10 !s90 seqmul.sv|tb_SequentialMultiplier.sv|
 !i113 1
@@ -47,7 +47,7 @@ R0
 R5
 R6
 R7
-!i122 48
+!i122 49
 L0 131 60
 R8
 r1
@@ -72,7 +72,7 @@ R0
 R5
 R6
 R7
-!i122 48
+!i122 49
 L0 67 62
 R8
 r1
@@ -97,7 +97,7 @@ R0
 R5
 R6
 R7
-!i122 48
+!i122 49
 L0 56 10
 R8
 r1
@@ -122,7 +122,7 @@ R0
 R5
 R6
 R7
-!i122 48
+!i122 49
 L0 27 28
 R8
 r1
@@ -147,7 +147,7 @@ R0
 w1703825526
 8tb_SequentialMultiplier.sv
 Ftb_SequentialMultiplier.sv
-!i122 48
+!i122 49
 L0 5 80
 R8
 r1

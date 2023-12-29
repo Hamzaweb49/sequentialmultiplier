@@ -4,14 +4,13 @@
 VERILATOR = verilator
 VERILATOR_FLAGS = -Wall --cc
 
-# Define XSIM variables
-VSIM = xsim
+# Define VSIM variables
+VSIM = vsim
 VSIM_FLAGS = -R
 
 # Define simulation variables
 SIM_BINARY = sim_bin
-SIM_SRC_VERILATOR = seqmux_tb_verilator.v
-SIM_SRC_XSIM = seqmux_tb_xsim.v
+SIM_SRC_VERILATOR = tb_SequentialMultiplier.sv
 
 # Default target
 .PHONY: all
