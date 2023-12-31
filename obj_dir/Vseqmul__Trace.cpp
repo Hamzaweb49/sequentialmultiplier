@@ -23,33 +23,31 @@ void Vseqmul::traceChgSub0(void* userp, VerilatedVcd* tracep) {
     // Body
     {
         if (VL_UNLIKELY(vlTOPp->__Vm_traceActivity[1U])) {
-            tracep->chgSData(oldp+0,(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_accumulator),16);
-            tracep->chgSData(oldp+1,(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_multiplier),16);
-            tracep->chgBit(oldp+2,(vlTOPp->TopModule__DOT__dp_inst__DOT__shiftcarry));
-            tracep->chgBit(oldp+3,(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_done));
+            tracep->chgBit(oldp+0,(vlTOPp->TopModule__DOT__shift_signal_int));
+            tracep->chgBit(oldp+1,(vlTOPp->TopModule__DOT__mux_signal_int));
+            tracep->chgSData(oldp+2,(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_accumulator),16);
+            tracep->chgSData(oldp+3,(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_multiplier),16);
+            tracep->chgBit(oldp+4,(vlTOPp->TopModule__DOT__dp_inst__DOT__shiftcarry));
+            tracep->chgBit(oldp+5,(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_done));
+            tracep->chgCData(oldp+6,(vlTOPp->TopModule__DOT__ctrl_inst__DOT__state),2);
+            tracep->chgCData(oldp+7,(vlTOPp->TopModule__DOT__ctrl_inst__DOT__count),4);
         }
-        if (VL_UNLIKELY(vlTOPp->__Vm_traceActivity[2U])) {
-            tracep->chgBit(oldp+4,(vlTOPp->TopModule__DOT__add_signal_int));
-            tracep->chgBit(oldp+5,(vlTOPp->TopModule__DOT__shift_signal_int));
-            tracep->chgBit(oldp+6,(vlTOPp->TopModule__DOT__mux_signal_int));
-            tracep->chgBit(oldp+7,(vlTOPp->TopModule__DOT__dp_inst__DOT__carryin));
-            tracep->chgCData(oldp+8,(vlTOPp->TopModule__DOT__ctrl_inst__DOT__state),2);
-            tracep->chgCData(oldp+9,(vlTOPp->TopModule__DOT__ctrl_inst__DOT__count),4);
-        }
-        tracep->chgBit(oldp+10,(vlTOPp->clk));
-        tracep->chgBit(oldp+11,(vlTOPp->reset));
-        tracep->chgBit(oldp+12,(vlTOPp->start));
-        tracep->chgSData(oldp+13,(vlTOPp->multiplier),16);
-        tracep->chgSData(oldp+14,(vlTOPp->multiplicand),16);
-        tracep->chgSData(oldp+15,(vlTOPp->accumulator),16);
-        tracep->chgBit(oldp+16,(vlTOPp->add_signal));
-        tracep->chgBit(oldp+17,(vlTOPp->shift_signal));
-        tracep->chgBit(oldp+18,(vlTOPp->mux_signal));
-        tracep->chgIData(oldp+19,(vlTOPp->product),32);
-        tracep->chgSData(oldp+20,(vlTOPp->TopModule__DOT__top_multiplier),16);
-        tracep->chgSData(oldp+21,(vlTOPp->TopModule__DOT__top_accumulator),16);
-        tracep->chgSData(oldp+22,(vlTOPp->TopModule__DOT__dp_inst__DOT__mux_output),16);
-        tracep->chgSData(oldp+23,(vlTOPp->TopModule__DOT__dp_inst__DOT__intermediate_accumulator),16);
+        tracep->chgBit(oldp+8,(vlTOPp->clk));
+        tracep->chgBit(oldp+9,(vlTOPp->reset));
+        tracep->chgBit(oldp+10,(vlTOPp->start));
+        tracep->chgSData(oldp+11,(vlTOPp->multiplier),16);
+        tracep->chgSData(oldp+12,(vlTOPp->multiplicand),16);
+        tracep->chgSData(oldp+13,(vlTOPp->accumulator),16);
+        tracep->chgBit(oldp+14,(vlTOPp->add_signal));
+        tracep->chgBit(oldp+15,(vlTOPp->shift_signal));
+        tracep->chgBit(oldp+16,(vlTOPp->mux_signal));
+        tracep->chgIData(oldp+17,(vlTOPp->product),32);
+        tracep->chgBit(oldp+18,(vlTOPp->TopModule__DOT__add_signal_int));
+        tracep->chgSData(oldp+19,(vlTOPp->TopModule__DOT__top_multiplier),16);
+        tracep->chgSData(oldp+20,(vlTOPp->TopModule__DOT__top_accumulator),16);
+        tracep->chgSData(oldp+21,(vlTOPp->TopModule__DOT__dp_inst__DOT__mux_output),16);
+        tracep->chgSData(oldp+22,(vlTOPp->TopModule__DOT__dp_inst__DOT__intermediate_accumulator),16);
+        tracep->chgBit(oldp+23,(vlTOPp->TopModule__DOT__dp_inst__DOT__carryin));
         tracep->chgBit(oldp+24,(vlTOPp->TopModule__DOT__dp_inst__DOT__carryout));
     }
 }
@@ -62,6 +60,5 @@ void Vseqmul::traceCleanup(void* userp, VerilatedVcd* /*unused*/) {
         vlSymsp->__Vm_activity = false;
         vlTOPp->__Vm_traceActivity[0U] = 0U;
         vlTOPp->__Vm_traceActivity[1U] = 0U;
-        vlTOPp->__Vm_traceActivity[2U] = 0U;
     }
 }

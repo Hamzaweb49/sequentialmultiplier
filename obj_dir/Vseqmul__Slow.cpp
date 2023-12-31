@@ -34,25 +34,28 @@ void Vseqmul::_settle__TOP__3(Vseqmul__Syms* __restrict vlSymsp) {
     // Body
     vlTOPp->product = (((IData)(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_accumulator) 
                         << 0x10U) | (IData)(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_multiplier));
-    if (VL_UNLIKELY(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_done)) {
-        VL_WRITEF("The value of shift multiplier is %b\n",
-                  16,vlTOPp->TopModule__DOT__dp_inst__DOT__shift_multiplier);
-        vlTOPp->TopModule__DOT__top_multiplier = vlTOPp->TopModule__DOT__dp_inst__DOT__shift_multiplier;
-        vlTOPp->TopModule__DOT__top_accumulator = vlTOPp->TopModule__DOT__dp_inst__DOT__shift_accumulator;
-    } else {
-        if ((1U & (~ (IData)(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_done)))) {
-            vlTOPp->TopModule__DOT__top_multiplier 
-                = vlTOPp->multiplier;
-            vlTOPp->TopModule__DOT__top_accumulator 
-                = vlTOPp->accumulator;
-        }
-    }
-    vlTOPp->add_signal = vlTOPp->TopModule__DOT__add_signal_int;
-    vlTOPp->shift_signal = vlTOPp->TopModule__DOT__shift_signal_int;
     vlTOPp->mux_signal = vlTOPp->TopModule__DOT__mux_signal_int;
     vlTOPp->TopModule__DOT__dp_inst__DOT__mux_output 
         = ((IData)(vlTOPp->TopModule__DOT__mux_signal_int)
             ? (IData)(vlTOPp->multiplicand) : 0U);
+    if (vlTOPp->TopModule__DOT__dp_inst__DOT__shift_done) {
+        vlTOPp->TopModule__DOT__top_multiplier = vlTOPp->TopModule__DOT__dp_inst__DOT__shift_multiplier;
+    } else {
+        if ((1U & (~ (IData)(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_done)))) {
+            vlTOPp->TopModule__DOT__top_multiplier 
+                = vlTOPp->multiplier;
+        }
+    }
+    if (vlTOPp->TopModule__DOT__dp_inst__DOT__shift_done) {
+        vlTOPp->TopModule__DOT__top_accumulator = vlTOPp->TopModule__DOT__dp_inst__DOT__shift_accumulator;
+    } else {
+        if ((1U & (~ (IData)(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_done)))) {
+            vlTOPp->TopModule__DOT__top_accumulator 
+                = vlTOPp->accumulator;
+        }
+    }
+    vlTOPp->shift_signal = vlTOPp->TopModule__DOT__shift_signal_int;
+    vlTOPp->add_signal = vlTOPp->TopModule__DOT__add_signal_int;
 }
 
 void Vseqmul::_eval_initial(Vseqmul__Syms* __restrict vlSymsp) {
@@ -105,11 +108,7 @@ void Vseqmul::_ctor_var_reset() {
     TopModule__DOT__dp_inst__DOT__shift_done = VL_RAND_RESET_I(1);
     TopModule__DOT__ctrl_inst__DOT__state = VL_RAND_RESET_I(2);
     TopModule__DOT__ctrl_inst__DOT__count = VL_RAND_RESET_I(4);
-    __Vdly__TopModule__DOT__ctrl_inst__DOT__state = VL_RAND_RESET_I(2);
-    __Vdly__TopModule__DOT__ctrl_inst__DOT__count = VL_RAND_RESET_I(4);
-    __Vdly__TopModule__DOT__shift_signal_int = VL_RAND_RESET_I(1);
-    __Vdly__TopModule__DOT__mux_signal_int = VL_RAND_RESET_I(1);
-    { int __Vi0=0; for (; __Vi0<3; ++__Vi0) {
+    { int __Vi0=0; for (; __Vi0<2; ++__Vi0) {
             __Vm_traceActivity[__Vi0] = VL_RAND_RESET_I(1);
     }}
 }

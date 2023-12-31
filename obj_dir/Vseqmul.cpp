@@ -69,13 +69,11 @@ void Vseqmul::_eval_initial_loop(Vseqmul__Syms* __restrict vlSymsp) {
 VL_INLINE_OPT void Vseqmul::_sequent__TOP__1(Vseqmul__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vseqmul::_sequent__TOP__1\n"); );
     Vseqmul* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Variables
+    CData/*1:0*/ __Vdly__TopModule__DOT__ctrl_inst__DOT__state;
+    CData/*0:0*/ __Vdly__TopModule__DOT__shift_signal_int;
     // Body
-    vlTOPp->__Vdly__TopModule__DOT__ctrl_inst__DOT__count 
-        = vlTOPp->TopModule__DOT__ctrl_inst__DOT__count;
-    vlTOPp->__Vdly__TopModule__DOT__ctrl_inst__DOT__state 
-        = vlTOPp->TopModule__DOT__ctrl_inst__DOT__state;
-    vlTOPp->__Vdly__TopModule__DOT__mux_signal_int 
-        = vlTOPp->TopModule__DOT__mux_signal_int;
+    __Vdly__TopModule__DOT__ctrl_inst__DOT__state = vlTOPp->TopModule__DOT__ctrl_inst__DOT__state;
     if ((1U & (~ (IData)(vlTOPp->reset)))) {
         if (vlTOPp->TopModule__DOT__shift_signal_int) {
             vlTOPp->TopModule__DOT__dp_inst__DOT__shift_multiplier 
@@ -86,6 +84,9 @@ VL_INLINE_OPT void Vseqmul::_sequent__TOP__1(Vseqmul__Syms* __restrict vlSymsp) 
                    | (0x8000U & ((IData)(vlTOPp->TopModule__DOT__dp_inst__DOT__intermediate_accumulator) 
                                  << 0xfU)));
         }
+    }
+    if (vlTOPp->reset) {
+        vlTOPp->TopModule__DOT__mux_signal_int = 0U;
     }
     if (vlTOPp->reset) {
         vlTOPp->TopModule__DOT__dp_inst__DOT__shift_multiplier = 0U;
@@ -129,15 +130,53 @@ VL_INLINE_OPT void Vseqmul::_sequent__TOP__1(Vseqmul__Syms* __restrict vlSymsp) 
                       << 0xfU));
         }
     }
-    vlTOPp->__Vdly__TopModule__DOT__shift_signal_int 
-        = vlTOPp->TopModule__DOT__shift_signal_int;
+    __Vdly__TopModule__DOT__shift_signal_int = vlTOPp->TopModule__DOT__shift_signal_int;
     vlTOPp->product = (((IData)(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_accumulator) 
                         << 0x10U) | (IData)(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_multiplier));
+    if (vlTOPp->reset) {
+        __Vdly__TopModule__DOT__ctrl_inst__DOT__state = 0U;
+        __Vdly__TopModule__DOT__shift_signal_int = 0U;
+    } else {
+        if ((2U & (IData)(vlTOPp->TopModule__DOT__ctrl_inst__DOT__state))) {
+            if ((1U & (IData)(vlTOPp->TopModule__DOT__ctrl_inst__DOT__state))) {
+                vlTOPp->TopModule__DOT__ctrl_inst__DOT__count 
+                    = (0xfU & ((IData)(1U) + (IData)(vlTOPp->TopModule__DOT__ctrl_inst__DOT__count)));
+                vlTOPp->TopModule__DOT__shift_signal_int = 0U;
+                vlTOPp->TopModule__DOT__ctrl_inst__DOT__state = 0U;
+            } else {
+                vlTOPp->TopModule__DOT__add_signal_int = 0U;
+                vlTOPp->TopModule__DOT__ctrl_inst__DOT__state = 3U;
+                __Vdly__TopModule__DOT__shift_signal_int = 1U;
+            }
+        } else {
+            if ((1U & (IData)(vlTOPp->TopModule__DOT__ctrl_inst__DOT__state))) {
+                vlTOPp->TopModule__DOT__shift_signal_int = 0U;
+                vlTOPp->TopModule__DOT__add_signal_int = 1U;
+                vlTOPp->TopModule__DOT__ctrl_inst__DOT__state = 2U;
+            } else {
+                if (vlTOPp->start) {
+                    vlTOPp->TopModule__DOT__mux_signal_int 
+                        = (1U & (IData)(vlTOPp->TopModule__DOT__top_multiplier));
+                    __Vdly__TopModule__DOT__ctrl_inst__DOT__state = 1U;
+                }
+            }
+        }
+    }
     if (vlTOPp->reset) {
         vlTOPp->TopModule__DOT__dp_inst__DOT__carryout = 0U;
     }
     if (vlTOPp->reset) {
         vlTOPp->TopModule__DOT__dp_inst__DOT__intermediate_accumulator = 0U;
+    }
+    vlTOPp->TopModule__DOT__ctrl_inst__DOT__state = __Vdly__TopModule__DOT__ctrl_inst__DOT__state;
+    vlTOPp->TopModule__DOT__shift_signal_int = __Vdly__TopModule__DOT__shift_signal_int;
+    vlTOPp->mux_signal = vlTOPp->TopModule__DOT__mux_signal_int;
+    vlTOPp->shift_signal = vlTOPp->TopModule__DOT__shift_signal_int;
+    if (vlTOPp->reset) {
+        vlTOPp->TopModule__DOT__ctrl_inst__DOT__count = 0U;
+    }
+    if (vlTOPp->reset) {
+        vlTOPp->TopModule__DOT__top_multiplier = 0U;
     }
 }
 
@@ -158,13 +197,35 @@ VL_INLINE_OPT void Vseqmul::_sequent__TOP__2(Vseqmul__Syms* __restrict vlSymsp) 
             : (IData)(vlTOPp->TopModule__DOT__top_accumulator));
 }
 
-VL_INLINE_OPT void Vseqmul::_sequent__TOP__4(Vseqmul__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vseqmul::_sequent__TOP__4\n"); );
+VL_INLINE_OPT void Vseqmul::_combo__TOP__4(Vseqmul__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vseqmul::_combo__TOP__4\n"); );
     Vseqmul* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
-    // Variables
-    CData/*0:0*/ __Vdly__TopModule__DOT__add_signal_int;
     // Body
-    __Vdly__TopModule__DOT__add_signal_int = vlTOPp->TopModule__DOT__add_signal_int;
+    if (vlTOPp->TopModule__DOT__dp_inst__DOT__shift_done) {
+        vlTOPp->TopModule__DOT__top_multiplier = vlTOPp->TopModule__DOT__dp_inst__DOT__shift_multiplier;
+    } else {
+        if ((1U & (~ (IData)(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_done)))) {
+            vlTOPp->TopModule__DOT__top_multiplier 
+                = vlTOPp->multiplier;
+        }
+    }
+    vlTOPp->TopModule__DOT__dp_inst__DOT__mux_output 
+        = ((IData)(vlTOPp->TopModule__DOT__mux_signal_int)
+            ? (IData)(vlTOPp->multiplicand) : 0U);
+    if (vlTOPp->TopModule__DOT__dp_inst__DOT__shift_done) {
+        vlTOPp->TopModule__DOT__top_accumulator = vlTOPp->TopModule__DOT__dp_inst__DOT__shift_accumulator;
+    } else {
+        if ((1U & (~ (IData)(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_done)))) {
+            vlTOPp->TopModule__DOT__top_accumulator 
+                = vlTOPp->accumulator;
+        }
+    }
+}
+
+VL_INLINE_OPT void Vseqmul::_sequent__TOP__5(Vseqmul__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vseqmul::_sequent__TOP__5\n"); );
+    Vseqmul* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Body
     if (vlTOPp->reset) {
         vlTOPp->TopModule__DOT__dp_inst__DOT__carryin = 0U;
     }
@@ -175,73 +236,9 @@ VL_INLINE_OPT void Vseqmul::_sequent__TOP__4(Vseqmul__Syms* __restrict vlSymsp) 
         vlTOPp->TopModule__DOT__top_accumulator = 0U;
     }
     if (vlTOPp->reset) {
-        vlTOPp->__Vdly__TopModule__DOT__ctrl_inst__DOT__state = 0U;
-        vlTOPp->__Vdly__TopModule__DOT__ctrl_inst__DOT__count = 0U;
-        __Vdly__TopModule__DOT__add_signal_int = 0U;
-        vlTOPp->__Vdly__TopModule__DOT__shift_signal_int = 0U;
-        vlTOPp->__Vdly__TopModule__DOT__mux_signal_int = 0U;
-    } else {
-        if ((2U & (IData)(vlTOPp->TopModule__DOT__ctrl_inst__DOT__state))) {
-            if ((1U & (IData)(vlTOPp->TopModule__DOT__ctrl_inst__DOT__state))) {
-                vlTOPp->TopModule__DOT__ctrl_inst__DOT__count 
-                    = (0xfU & ((IData)(1U) + (IData)(vlTOPp->TopModule__DOT__ctrl_inst__DOT__count)));
-                vlTOPp->TopModule__DOT__shift_signal_int = 0U;
-                vlTOPp->TopModule__DOT__ctrl_inst__DOT__state = 0U;
-            } else {
-                vlTOPp->TopModule__DOT__add_signal_int = 0U;
-                vlTOPp->TopModule__DOT__ctrl_inst__DOT__state = 3U;
-                vlTOPp->__Vdly__TopModule__DOT__shift_signal_int = 1U;
-            }
-        } else {
-            if ((1U & (IData)(vlTOPp->TopModule__DOT__ctrl_inst__DOT__state))) {
-                vlTOPp->TopModule__DOT__shift_signal_int = 0U;
-                vlTOPp->TopModule__DOT__add_signal_int = 1U;
-                vlTOPp->TopModule__DOT__ctrl_inst__DOT__state = 2U;
-            } else {
-                if (VL_UNLIKELY(vlTOPp->start)) {
-                    vlTOPp->TopModule__DOT__mux_signal_int 
-                        = (1U & (IData)(vlTOPp->TopModule__DOT__top_multiplier));
-                    VL_WRITEF("The value of multiplier is %b and mux signal is %b\n",
-                              16,vlTOPp->TopModule__DOT__top_multiplier,
-                              1,(IData)(vlTOPp->TopModule__DOT__mux_signal_int));
-                    vlTOPp->__Vdly__TopModule__DOT__ctrl_inst__DOT__state = 1U;
-                }
-            }
-        }
+        vlTOPp->TopModule__DOT__add_signal_int = 0U;
     }
-    vlTOPp->TopModule__DOT__ctrl_inst__DOT__state = vlTOPp->__Vdly__TopModule__DOT__ctrl_inst__DOT__state;
-    vlTOPp->TopModule__DOT__ctrl_inst__DOT__count = vlTOPp->__Vdly__TopModule__DOT__ctrl_inst__DOT__count;
-    vlTOPp->TopModule__DOT__add_signal_int = __Vdly__TopModule__DOT__add_signal_int;
-    vlTOPp->TopModule__DOT__shift_signal_int = vlTOPp->__Vdly__TopModule__DOT__shift_signal_int;
-    vlTOPp->TopModule__DOT__mux_signal_int = vlTOPp->__Vdly__TopModule__DOT__mux_signal_int;
     vlTOPp->add_signal = vlTOPp->TopModule__DOT__add_signal_int;
-    vlTOPp->shift_signal = vlTOPp->TopModule__DOT__shift_signal_int;
-    vlTOPp->mux_signal = vlTOPp->TopModule__DOT__mux_signal_int;
-    if (vlTOPp->reset) {
-        vlTOPp->TopModule__DOT__top_multiplier = 0U;
-    }
-}
-
-VL_INLINE_OPT void Vseqmul::_combo__TOP__5(Vseqmul__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vseqmul::_combo__TOP__5\n"); );
-    Vseqmul* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
-    // Body
-    if (VL_UNLIKELY(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_done)) {
-        VL_WRITEF("The value of shift multiplier is %b\n",
-                  16,vlTOPp->TopModule__DOT__dp_inst__DOT__shift_multiplier);
-        vlTOPp->TopModule__DOT__top_multiplier = vlTOPp->TopModule__DOT__dp_inst__DOT__shift_multiplier;
-        vlTOPp->TopModule__DOT__top_accumulator = vlTOPp->TopModule__DOT__dp_inst__DOT__shift_accumulator;
-    } else {
-        if ((1U & (~ (IData)(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_done)))) {
-            vlTOPp->TopModule__DOT__top_multiplier 
-                = vlTOPp->multiplier;
-            vlTOPp->TopModule__DOT__top_accumulator 
-                = vlTOPp->accumulator;
-        }
-    }
-    vlTOPp->TopModule__DOT__dp_inst__DOT__mux_output 
-        = ((IData)(vlTOPp->TopModule__DOT__mux_signal_int)
-            ? (IData)(vlTOPp->multiplicand) : 0U);
 }
 
 void Vseqmul::_eval(Vseqmul__Syms* __restrict vlSymsp) {
@@ -256,12 +253,11 @@ void Vseqmul::_eval(Vseqmul__Syms* __restrict vlSymsp) {
     if (((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk)))) {
         vlTOPp->_sequent__TOP__2(vlSymsp);
     }
+    vlTOPp->_combo__TOP__4(vlSymsp);
     if ((((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk))) 
          | ((IData)(vlTOPp->reset) & (~ (IData)(vlTOPp->__Vclklast__TOP__reset))))) {
-        vlTOPp->_sequent__TOP__4(vlSymsp);
-        vlTOPp->__Vm_traceActivity[2U] = 1U;
+        vlTOPp->_sequent__TOP__5(vlSymsp);
     }
-    vlTOPp->_combo__TOP__5(vlSymsp);
     // Final
     vlTOPp->__Vclklast__TOP__clk = vlTOPp->clk;
     vlTOPp->__Vclklast__TOP__reset = vlTOPp->reset;

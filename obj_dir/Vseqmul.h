@@ -8,7 +8,7 @@
 #ifndef _VSEQMUL_H_
 #define _VSEQMUL_H_  // guard
 
-#include "verilated_heavy.h"
+#include "verilated.h"
 
 //==========
 
@@ -55,13 +55,9 @@ VL_MODULE(Vseqmul) {
     
     // LOCAL VARIABLES
     // Internals; generally not touched by application code
-    CData/*1:0*/ __Vdly__TopModule__DOT__ctrl_inst__DOT__state;
-    CData/*3:0*/ __Vdly__TopModule__DOT__ctrl_inst__DOT__count;
-    CData/*0:0*/ __Vdly__TopModule__DOT__shift_signal_int;
-    CData/*0:0*/ __Vdly__TopModule__DOT__mux_signal_int;
     CData/*0:0*/ __Vclklast__TOP__clk;
     CData/*0:0*/ __Vclklast__TOP__reset;
-    CData/*0:0*/ __Vm_traceActivity[3];
+    CData/*0:0*/ __Vm_traceActivity[2];
     
     // INTERNAL VARIABLES
     // Internals; generally not touched by application code
@@ -100,7 +96,7 @@ VL_MODULE(Vseqmul) {
     static QData _change_request(Vseqmul__Syms* __restrict vlSymsp);
     static QData _change_request_1(Vseqmul__Syms* __restrict vlSymsp);
   public:
-    static void _combo__TOP__5(Vseqmul__Syms* __restrict vlSymsp);
+    static void _combo__TOP__4(Vseqmul__Syms* __restrict vlSymsp);
   private:
     void _ctor_var_reset() VL_ATTR_COLD;
   public:
@@ -114,7 +110,7 @@ VL_MODULE(Vseqmul) {
     static void _eval_settle(Vseqmul__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _sequent__TOP__1(Vseqmul__Syms* __restrict vlSymsp);
     static void _sequent__TOP__2(Vseqmul__Syms* __restrict vlSymsp);
-    static void _sequent__TOP__4(Vseqmul__Syms* __restrict vlSymsp);
+    static void _sequent__TOP__5(Vseqmul__Syms* __restrict vlSymsp);
     static void _settle__TOP__3(Vseqmul__Syms* __restrict vlSymsp) VL_ATTR_COLD;
   private:
     static void traceChgSub0(void* userp, VerilatedVcd* tracep);
