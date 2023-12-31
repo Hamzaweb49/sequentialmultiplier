@@ -10,34 +10,50 @@ logic start;
 logic add_signal;
 logic shift_signal;
 logic mux_signal;
+// logic shift_done;
 logic [15:0] multiplicand;
 logic [15:0] accumulator; 
 logic [15:0] multiplier;
 logic [31:0] product;
 
 // Instantiate the UUT
-Datapath uut (
+// Datapath uut (
+//     .clk(clk),
+//     .reset(reset),
+//     .start(start),
+//     .add_signal(add_signal),
+//     .shift_signal(shift_signal),
+//     .mux_signal(mux_signal),
+//     .multiplicand(multiplicand),
+//     .accumulator(accumulator),
+//     .multiplier(multiplier),
+//     .product(product)
+// );
+
+// Controller dut (
+//     .clk(clk),
+//     .reset(reset),
+//     .start(start),
+//     .add_signal(add_signal),
+//     .shift_signal(shift_signal),
+//     .mux_signal(mux_signal),
+//     .multiplier(multiplier)
+// );
+
+  TopModule uut (
     .clk(clk),
     .reset(reset),
     .start(start),
     .add_signal(add_signal),
     .shift_signal(shift_signal),
     .mux_signal(mux_signal),
+    .multiplier(multiplier),
     .multiplicand(multiplicand),
     .accumulator(accumulator),
-    .multiplier(multiplier),
+    // .shift_done(shift_done),
     .product(product)
-);
+  );
 
-Controller dut (
-    .clk(clk),
-    .reset(reset),
-    .start(start),
-    .add_signal(add_signal),
-    .shift_signal(shift_signal),
-    .mux_signal(mux_signal),
-    .multiplier(multiplier)
-);
 
 
 // Clock generation
@@ -50,23 +66,14 @@ end
 initial begin
     reset = 1;
     start = 0;
+    // shift_done = 0;
     multiplicand = 16'b0;
     accumulator = 16'b0;
     multiplier = 16'b0;
     #10 reset = 0; 
+    multiplicand = 16'h0008; // 4882
+    multiplier = 16'h0010; //4626
     start = 1; 
-
-    multiplicand = 16'h1312;
-    multiplier = 16'h1212;
-
-    #100 multiplicand = 16'hA5A5;
-    multiplier = 16'h0000;
-
-    #100 multiplicand = 16'hA5A5;
-    multiplier = 16'h0000;
-
-    #100 multiplicand = 16'hB5B5;
-    multiplier = 16'h1234;
 
     #1000 $finish; 
 end

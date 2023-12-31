@@ -7,7 +7,7 @@
 #ifndef _VSEQMUL__SYMS_H_
 #define _VSEQMUL__SYMS_H_  // guard
 
-#include "verilated.h"
+#include "verilated_heavy.h"
 
 // INCLUDE MODULE CLASSES
 #include "Vseqmul.h"

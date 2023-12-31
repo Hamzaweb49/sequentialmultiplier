@@ -32,7 +32,7 @@ help:
 sim:
 ifdef TOOL
 ifeq ($(TOOL),vsim)
-	@echo "Running XSIM simulation..."
+	@echo "Running VSIM simulation..."
 	vlog seqmul.sv tb_SequentialMultiplier.sv
 	vsim tb_SequentialMultiplier
 else ifeq ($(TOOL),verilator)

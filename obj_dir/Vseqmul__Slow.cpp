@@ -28,25 +28,39 @@ Vseqmul::~Vseqmul() {
     VL_DO_CLEAR(delete __VlSymsp, __VlSymsp = NULL);
 }
 
-void Vseqmul::_settle__TOP__5(Vseqmul__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vseqmul::_settle__TOP__5\n"); );
+void Vseqmul::_settle__TOP__3(Vseqmul__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vseqmul::_settle__TOP__3\n"); );
     Vseqmul* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlTOPp->product = (((IData)(vlTOPp->Datapath__DOT__shift_accumulator) 
-                        << 0x10U) | (IData)(vlTOPp->Datapath__DOT__shift_multiplier));
-    vlTOPp->Datapath__DOT__mux_output = ((IData)(vlTOPp->Datapath__02Emux_signal)
-                                          ? (IData)(vlTOPp->multiplicand)
-                                          : 0U);
+    vlTOPp->product = (((IData)(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_accumulator) 
+                        << 0x10U) | (IData)(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_multiplier));
+    if (VL_UNLIKELY(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_done)) {
+        VL_WRITEF("The value of shift multiplier is %b\n",
+                  16,vlTOPp->TopModule__DOT__dp_inst__DOT__shift_multiplier);
+        vlTOPp->TopModule__DOT__top_multiplier = vlTOPp->TopModule__DOT__dp_inst__DOT__shift_multiplier;
+        vlTOPp->TopModule__DOT__top_accumulator = vlTOPp->TopModule__DOT__dp_inst__DOT__shift_accumulator;
+    } else {
+        if ((1U & (~ (IData)(vlTOPp->TopModule__DOT__dp_inst__DOT__shift_done)))) {
+            vlTOPp->TopModule__DOT__top_multiplier 
+                = vlTOPp->multiplier;
+            vlTOPp->TopModule__DOT__top_accumulator 
+                = vlTOPp->accumulator;
+        }
+    }
+    vlTOPp->add_signal = vlTOPp->TopModule__DOT__add_signal_int;
+    vlTOPp->shift_signal = vlTOPp->TopModule__DOT__shift_signal_int;
+    vlTOPp->mux_signal = vlTOPp->TopModule__DOT__mux_signal_int;
+    vlTOPp->TopModule__DOT__dp_inst__DOT__mux_output 
+        = ((IData)(vlTOPp->TopModule__DOT__mux_signal_int)
+            ? (IData)(vlTOPp->multiplicand) : 0U);
 }
 
 void Vseqmul::_eval_initial(Vseqmul__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vseqmul::_eval_initial\n"); );
     Vseqmul* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlTOPp->__Vclklast__TOP__Datapath__02Ereset = vlTOPp->Datapath__02Ereset;
-    vlTOPp->__Vclklast__TOP__Datapath__02Eclk = vlTOPp->Datapath__02Eclk;
-    vlTOPp->__Vclklast__TOP__Controller__02Eclk = vlTOPp->Controller__02Eclk;
-    vlTOPp->__Vclklast__TOP__Controller__02Ereset = vlTOPp->Controller__02Ereset;
+    vlTOPp->__Vclklast__TOP__clk = vlTOPp->clk;
+    vlTOPp->__Vclklast__TOP__reset = vlTOPp->reset;
 }
 
 void Vseqmul::final() {
@@ -60,39 +74,42 @@ void Vseqmul::_eval_settle(Vseqmul__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vseqmul::_eval_settle\n"); );
     Vseqmul* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlTOPp->_settle__TOP__5(vlSymsp);
+    vlTOPp->_settle__TOP__3(vlSymsp);
 }
 
 void Vseqmul::_ctor_var_reset() {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vseqmul::_ctor_var_reset\n"); );
     // Body
-    Controller__02Eclk = VL_RAND_RESET_I(1);
-    Controller__02Ereset = VL_RAND_RESET_I(1);
-    Controller__02Estart = VL_RAND_RESET_I(1);
-    Controller__02Emultiplier = VL_RAND_RESET_I(16);
-    Controller__02Eadd_signal = VL_RAND_RESET_I(1);
-    Controller__02Eshift_signal = VL_RAND_RESET_I(1);
-    Controller__02Emux_signal = VL_RAND_RESET_I(1);
-    Datapath__02Eclk = VL_RAND_RESET_I(1);
-    Datapath__02Ereset = VL_RAND_RESET_I(1);
-    Datapath__02Estart = VL_RAND_RESET_I(1);
-    Datapath__02Eadd_signal = VL_RAND_RESET_I(1);
-    Datapath__02Eshift_signal = VL_RAND_RESET_I(1);
-    Datapath__02Emux_signal = VL_RAND_RESET_I(1);
+    clk = VL_RAND_RESET_I(1);
+    reset = VL_RAND_RESET_I(1);
+    start = VL_RAND_RESET_I(1);
+    multiplier = VL_RAND_RESET_I(16);
     multiplicand = VL_RAND_RESET_I(16);
     accumulator = VL_RAND_RESET_I(16);
-    Datapath__02Emultiplier = VL_RAND_RESET_I(16);
+    add_signal = VL_RAND_RESET_I(1);
+    shift_signal = VL_RAND_RESET_I(1);
+    mux_signal = VL_RAND_RESET_I(1);
     product = VL_RAND_RESET_I(32);
-    Controller__DOT__state = VL_RAND_RESET_I(2);
-    Controller__DOT__count = VL_RAND_RESET_I(4);
-    Datapath__DOT__shift_accumulator = VL_RAND_RESET_I(16);
-    Datapath__DOT__mux_output = VL_RAND_RESET_I(16);
-    Datapath__DOT__intermediate_accumulator = VL_RAND_RESET_I(16);
-    Datapath__DOT__shift_multiplier = VL_RAND_RESET_I(16);
-    Datapath__DOT__carryin = VL_RAND_RESET_I(1);
-    Datapath__DOT__carryout = VL_RAND_RESET_I(1);
-    Datapath__DOT__shiftcarry = VL_RAND_RESET_I(1);
-    { int __Vi0=0; for (; __Vi0<1; ++__Vi0) {
+    TopModule__DOT__add_signal_int = VL_RAND_RESET_I(1);
+    TopModule__DOT__shift_signal_int = VL_RAND_RESET_I(1);
+    TopModule__DOT__mux_signal_int = VL_RAND_RESET_I(1);
+    TopModule__DOT__top_multiplier = VL_RAND_RESET_I(16);
+    TopModule__DOT__top_accumulator = VL_RAND_RESET_I(16);
+    TopModule__DOT__dp_inst__DOT__shift_accumulator = VL_RAND_RESET_I(16);
+    TopModule__DOT__dp_inst__DOT__mux_output = VL_RAND_RESET_I(16);
+    TopModule__DOT__dp_inst__DOT__intermediate_accumulator = VL_RAND_RESET_I(16);
+    TopModule__DOT__dp_inst__DOT__shift_multiplier = VL_RAND_RESET_I(16);
+    TopModule__DOT__dp_inst__DOT__carryin = VL_RAND_RESET_I(1);
+    TopModule__DOT__dp_inst__DOT__carryout = VL_RAND_RESET_I(1);
+    TopModule__DOT__dp_inst__DOT__shiftcarry = VL_RAND_RESET_I(1);
+    TopModule__DOT__dp_inst__DOT__shift_done = VL_RAND_RESET_I(1);
+    TopModule__DOT__ctrl_inst__DOT__state = VL_RAND_RESET_I(2);
+    TopModule__DOT__ctrl_inst__DOT__count = VL_RAND_RESET_I(4);
+    __Vdly__TopModule__DOT__ctrl_inst__DOT__state = VL_RAND_RESET_I(2);
+    __Vdly__TopModule__DOT__ctrl_inst__DOT__count = VL_RAND_RESET_I(4);
+    __Vdly__TopModule__DOT__shift_signal_int = VL_RAND_RESET_I(1);
+    __Vdly__TopModule__DOT__mux_signal_int = VL_RAND_RESET_I(1);
+    { int __Vi0=0; for (; __Vi0<3; ++__Vi0) {
             __Vm_traceActivity[__Vi0] = VL_RAND_RESET_I(1);
     }}
 }

@@ -11,176 +11,176 @@ cModel Technology
 Z0 d/home/hamza/verilogcodes/seqmux
 vAddModule
 Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
-Z2 !s110 1703854129
+Z2 !s110 1704010666
 !i10b 1
-!s100 1e=hjL?DB2<>6zkZT=9:<1
+!s100 GKMO>hXDL3aFzUDnmo]?L3
 Z3 !s11b Dg1SIo80bB@j0V0VzS_@n1
-I0`dO5=m3PiGHE`SKX1fNA1
+ICLSZfOLJ3UmfZnA;8LPo;3
 Z4 VDg1SIo80bB@j0V0VzS_@n1
 S1
 R0
-Z5 w1703854103
+Z5 w1704010662
 Z6 8seqmul.sv
 Z7 Fseqmul.sv
-!i122 52
-L0 72 17
+!i122 222
+L0 147 17
 Z8 OV;L;2020.1;71
 r1
 !s85 0
 31
-Z9 !s108 1703854129.000000
-Z10 !s107 tb_SequentialMultiplier.sv|seqmul.sv|
-Z11 !s90 seqmul.sv|tb_SequentialMultiplier.sv|
+Z9 !s108 1704010666.000000
+!s107 tb_SequentialMultiplier.sv|seqmul.sv|
+Z10 !s90 seqmul.sv|tb_SequentialMultiplier.sv|
 !i113 1
-Z12 tCvgOpt 0
+Z11 tCvgOpt 0
 n@add@module
 vController
 R1
 R2
 !i10b 1
-!s100 09c8Y0Hbg5bO?`KMl=N:=0
+!s100 M9@z:1kO0S?N8T9K4Z54Y1
 R3
-IEa@9l0A?9:^LYd>UA`f482
+I<XcF?G^m7z6LXUohSzhPC0
 R4
 S1
 R0
 R5
 R6
 R7
-!i122 52
-L0 131 60
+!i122 222
+L0 211 61
 R8
 r1
 !s85 0
 31
 R9
+Z12 !s107 tb_SequentialMultiplier.sv|seqmul.sv|
 R10
-R11
 !i113 1
-R12
+R11
 n@controller
 vDatapath
 R1
 R2
 !i10b 1
-!s100 8=Zb<2Me8MHUd4@z8k>UF2
+!s100 V?niVKfGGTC6T]b?]k]a>0
 R3
-INbPIW]>:[?S9=Bb?8mJA91
+IPUKIfEDeJ14cD2GcMK_SW1
 R4
 S1
 R0
 R5
 R6
 R7
-!i122 52
-L0 9 62
+!i122 222
+L0 78 68
 R8
 r1
 !s85 0
 31
 R9
-R10
-R11
-!i113 1
 R12
+R10
+!i113 1
+R11
 n@datapath
 vMuxModule
 R1
 R2
 !i10b 1
-!s100 Od^8M2_ZLg89UljIBEFT83
+!s100 Vka>eUhlB0_Z3caJ5P<BS2
 R3
-IT6lo6e25iWC>G4W4z;Y<_2
+IfYiGLHkWm>kFkjPUAzji52
 R4
 S1
 R0
 R5
 R6
 R7
-!i122 52
-L0 119 10
+!i122 222
+L0 199 10
 R8
 r1
 !s85 0
 31
 R9
-R10
-R11
-!i113 1
 R12
+R10
+!i113 1
+R11
 n@mux@module
 vShiftModule
 R1
 R2
 !i10b 1
-!s100 F4KEz42VeMFFJ1JXnX5Xj0
+!s100 a^@aBE>KZL58ahMl[oD^80
 R3
-I^ZaNhg]>z^Ah;<W9LzKH_2
+IhJKc6oGC`G5IgKe788Ra01
 R4
 S1
 R0
 R5
 R6
 R7
-!i122 52
-L0 90 28
+!i122 222
+L0 165 33
 R8
 r1
 !s85 0
 31
 R9
-R10
-R11
-!i113 1
 R12
+R10
+!i113 1
+R11
 n@shift@module
 vtb_SequentialMultiplier
 R1
 R2
 !i10b 1
-!s100 >OS:LjgaZ_D596L6CZ:^f3
+!s100 7Z4eTP?F[h6o2V28[0=;[0
 R3
-IOBRSMTPld2cQOJB_T]2`c3
+Ib`b<1_gNm;Rn^o3cQEPO80
 R4
 S1
 R0
-w1703853864
+w1704010408
 8tb_SequentialMultiplier.sv
 Ftb_SequentialMultiplier.sv
-!i122 52
-L0 5 70
+!i122 222
+L0 5 77
 R8
 r1
 !s85 0
 31
 R9
-R10
-R11
-!i113 1
 R12
+R10
+!i113 1
+R11
 ntb_@sequential@multiplier
 vTopModule
 R1
-!s110 1703853825
+R2
 !i10b 1
-!s100 JHUhmD=DA9Qa43jdgR_Ik0
+!s100 a8UMCIhM^Z7Z85zao17eE2
 R3
-I6ZLnSV4>K2PIUl=YP9bkY3
+IJOZN6h:NFEE[_X@93KG<?1
 R4
 S1
 R0
-w1703853744
+R5
 R6
 R7
-!i122 50
-L0 9 45
+!i122 222
+L0 10 65
 R8
 r1
 !s85 0
 31
-!s108 1703853825.000000
-R10
-R11
-!i113 1
+R9
 R12
+R10
+!i113 1
+R11
 n@top@module

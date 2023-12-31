@@ -1,8 +1,9 @@
 # ERROR: No extended dataflow license exists
 # vsim tb_SequentialMultiplier 
-# Start time: 17:48:52 on Dec 29,2023
+# Start time: 13:17:50 on Dec 31,2023
 # Loading sv_std.std
 # Loading work.tb_SequentialMultiplier
+# Loading work.TopModule
 # Loading work.Datapath
 # Loading work.MuxModule
 # Loading work.AddModule
@@ -10,5 +11,3 @@
 # Loading work.Controller
 add wave -r /*
 run
-# End time: 17:50:16 on Dec 29,2023, Elapsed time: 0:01:24
-# Errors: 0, Warnings: 0
