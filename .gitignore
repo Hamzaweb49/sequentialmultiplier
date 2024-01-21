@@ -1,6 +1,6 @@
 .vscode/
 work/
 transcript 
-vism.wfl
+vsim.wlf
 waveform.vcd
-obj_dir
+obj_dir/
