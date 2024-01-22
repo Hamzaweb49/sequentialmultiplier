@@ -5,6 +5,7 @@ This repository contains Verilog code for a 16-bit sequential multiplier designe
 ## Table of Contents
 - [16-Bit Sequential Multiplier](#16-bit-sequential-multiplier)
   - [Overview](#overview)
+  - [Diagrams](#diagrams)
   - [Verilog Modules](#verilog-modules)
   - [Operation](#operation)
   - [Simulation](#simulation)
@@ -23,6 +24,15 @@ The Verilog implementation consists of the following modules:
 - **`ShiftModule`:** Handles shifting operations essential for the multiplication process.
 - **`MuxModule`:** Implements a multiplexer selecting one of two inputs based on a control signal.
 - **`Controller`:** Manages the state machine that controls the overall multiplication process.
+
+
+## Diagrams
+
+![Datapath Diagram](docs/Datapath.png)
+*Figure 1: Datapath Diagram*
+
+![Controller Diagram](docs/Controller.png)
+*Figure 2: Controller Diagram*
 
 ## Verilog Modules
 
