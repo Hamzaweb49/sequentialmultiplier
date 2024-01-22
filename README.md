@@ -31,7 +31,7 @@ The Verilog implementation consists of the following modules:
 ![Datapath Diagram](docs/Datapath.png)
 *Figure 1: Datapath Diagram*
 
-![Controller Diagram](docs/Controller.png)
+![Controller Diagram](docs/Controller.png)  
 *Figure 2: Controller Diagram*
 
 ## Verilog Modules
