@@ -33,11 +33,11 @@ sim:
 ifdef TOOL
 ifeq ($(TOOL),vsim)
 	@echo "Running VSIM simulation..."
-	vlog seqmul.sv tb_SequentialMultiplier.sv
+	vlog src/seqmul.sv test/tb_SequentialMultiplier.sv
 	vsim tb_SequentialMultiplier
 else ifeq ($(TOOL),verilator)
 	@echo "Running Verilator simulation..."
-	verilator -Wall --trace --exe --build -cc main.cpp seqmul.sv
+	verilator -Wall --trace --exe --build -cc test/main.cpp src/seqmul.sv
 	./obj_dir/Vseqmul
 	gtkwave waveform.vcd
 else
