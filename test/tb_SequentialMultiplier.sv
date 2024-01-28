@@ -42,8 +42,8 @@ initial begin
     accumulator = 16'b0;
     multiplier = 16'b0;
     #10 reset = 0; 
-    multiplicand = 16'h0008;
-    multiplier = 16'h0010; 
+    multiplicand = 120;
+    multiplier = 80; 
     start = 1; 
 
     #1000 $finish; 
