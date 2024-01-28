@@ -10,7 +10,8 @@ VSIM_FLAGS = -R
 
 # Define simulation variables
 SIM_BINARY = sim_bin
-SIM_SRC_VERILATOR = tb_SequentialMultiplier.sv
+SIM_SRC_VERILATOR = TopModule.sv Datapath.sv Controller.sv AddModule.sv MuxModule.sv ShiftModule.sv
+SIM_SRC_VSIM = $(addprefix src/,$(SIM_SRC_VERILATOR)) test/tb_SequentialMultiplier.sv
 
 # Default target
 .PHONY: all
@@ -33,9 +34,10 @@ sim:
 ifdef TOOL
 ifeq ($(TOOL),vsim)
 	@echo "Running VSIM simulation..."
-	vlog src/seqmul.sv test/tb_SequentialMultiplier.sv
+	vlog $(SIM_SRC_VSIM)
 	vsim tb_SequentialMultiplier
 else ifeq ($(TOOL),verilator)
+	@echo "Running Verilator simulation..."
 	@echo "Running Verilator simulation..."
 	verilator -Wall --trace --exe --build -cc test/main.cpp src/seqmul.sv
 	./obj_dir/Vseqmul
@@ -52,4 +54,3 @@ endif
 clean:
 	@echo "Cleaning up..."
 	rm -rf $(SIM_BINARY) obj_dir
-
