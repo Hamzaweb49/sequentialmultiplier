@@ -1,49 +1,59 @@
+#include <stdlib.h>
+#include <iostream>
+#include <cstdlib>
 #include <verilated.h>
 #include <verilated_vcd_c.h>
-#include "Vseqmul.h"
+#include "VTopModule.h"
+
+#define MAX_SIM_TIME 750
+vluint64_t sim_time = 0;
 
 int main(int argc, char** argv) {
+    short int a, b;
+    int product;
+
     Verilated::commandArgs(argc, argv);
-
-    Vseqmul* top = new Vseqmul;
-
-    top->clk = 0;
-    top->reset = 1;
-    top->start = 0;
-    top->add_signal = 0;
-    top->shift_signal = 0;
-    top->mux_signal = 0;
-
-    for (int i = 0; i < 10; ++i) {
-    }
-
-    top->reset = 0;
-    top->start = 1;
-    
-
-    top->multiplicand = 0x0002; 
-    top->multiplier = 0x0005; 
-    top->accumulator = 0x0000;
-
     Verilated::traceEverOn(true);
-    VerilatedVcdC* tfp = new VerilatedVcdC;
 
+    VTopModule* top = new VTopModule;
+
+    VerilatedVcdC* tfp = new VerilatedVcdC;
     top->trace(tfp, 99);
     tfp->open("waveform.vcd");
 
-    for (int i = 0; i < 500; ++i) {
-        top->clk = !top->clk;
+    a = 120;
+    b = 80;
 
-        tfp->dump(i);
+    while (!Verilated::gotFinish() && sim_time < MAX_SIM_TIME) {
+        if (sim_time == 4) {
+            top->reset = 1;
+            top->start = 0;
+            top->multiplier = 0;
+            top->multiplicand = 0;
+            top->accumulator = 0;
+            top->product = 0;
+        }
+        top->clk ^= 1;
+
+        if (sim_time == 5) {
+            top->multiplier = 80;
+            top->multiplicand = 120;
+            top->start = 1;
+        }
+
 
         top->eval();
 
-        tfp->flush();
+        product = top->product; 
+
+        tfp->dump(sim_time);
+        sim_time++;
     }
 
+    printf("Multiplicand = %d; Multiplier = %d; Product = %d\n", top->multiplicand, top->multiplier, top->product);
     tfp->close();
 
     delete top;
 
-    return 0;
+    exit(EXIT_SUCCESS);
 }

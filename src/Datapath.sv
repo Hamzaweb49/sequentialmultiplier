@@ -1,3 +1,4 @@
+/* verilator lint_off UNUSED */
 module Datapath #(
   parameter WIDTH_M = 16,
   parameter WIDTH_P = 32
@@ -14,9 +15,7 @@ module Datapath #(
   output logic [WIDTH_P-1:0] product
 );
 
-// logic [15:0] input_multiplier;
-// logic [15:0] input_accumulator;
-// logic [15:0] input_multiplicand;
+
 logic [WIDTH_M-1:0] mux_output;
 logic [WIDTH_M-1:0] intermediate_accumulator;
 logic [WIDTH_M-1:0] shift_multiplier; 
@@ -28,30 +27,8 @@ logic shift_done;
 
 
 assign carryin  = 1'b0;
+assign carryout = 1'b0;
 
-// InputRegister multiplier_in(
-//     .in(multiplier),
-//     .enable(1'b0),
-//     .reset(reset),
-//     .clk(clk),
-//     .out(input_multiplier)
-// );
-
-// InputRegister multiplicand_in(
-//     .in(multiplicand),
-//     .enable(1'b0),
-//     .reset(reset),
-//     .clk(clk),
-//     .out(input_multiplicand)
-// );
-
-// InputRegister accumulator_in(
-//     .in(accumulator),
-//     .enable(1'b0),
-//     .reset(reset),
-//     .clk(clk),
-//     .out(input_accumulator)
-// );
 
 MuxModule mux_inst (
   .multiplicand  (multiplicand), 
@@ -61,13 +38,11 @@ MuxModule mux_inst (
 );
 
 AddModule add_inst (
-  .clk              (clk), 
   .mux_out          (mux_output), 
   .accumulator      (accumulator), 
   .carryin          (carryin),
   .add_signal       (add_signal), 
-  .adder_accumulator(intermediate_accumulator), 
-  .carryout         (carryout)
+  .adder_accumulator(intermediate_accumulator)
 );
 
 ShiftModule shift_inst (
@@ -87,3 +62,4 @@ assign product = {shift_accumulator, shift_multiplier};
 
 
 endmodule
+/* verilator lint_on UNUSED */

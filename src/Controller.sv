@@ -1,3 +1,7 @@
+/* verilator lint_off WIDTH */
+/* verilator lint_off UNUSED */
+/* verilator lint_off UNOPTFLAT */
+/* verilator lint_off LATCH */
 module Controller #(
   parameter WIDTH_M = 16,
   parameter WIDTH_C = 4,
@@ -18,7 +22,7 @@ localparam S0 = 3'b000, S1 = 3'b001, S2 = 3'b010,
 
 logic [WIDTH_S-1:0] state;
 logic [WIDTH_S-1:0] next_state;
-logic [WIDTH_C-1:0] count = 4'b0;
+logic [WIDTH_C-1:0] count;
 
 always_ff @(posedge clk or posedge reset) begin
   if (reset) begin
@@ -31,8 +35,8 @@ end
 always_comb begin
   case (state)
     S0: begin
+      count        = 4'b0;
       if (start && count < 16) begin
-        count        = 4'b0;
         add_signal   = 1'b0;
         shift_signal = 1'b0;
         mux_signal   = 1'b0;
@@ -71,3 +75,7 @@ always_comb begin
 end
 
 endmodule
+/* verilator lint_on LATCH */
+/* verilator lint_on UNOPTFLAT */
+/* verilator lint_on WIDTH */
+/* verilator lint_on UNUSED */

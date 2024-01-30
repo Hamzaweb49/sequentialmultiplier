@@ -1,4 +1,4 @@
-# Makefile for Verilog simulation using Verilator or XSIM
+# Makefile for Verilog simulation using Verilator or VSIM
 
 # Define Verilator variables
 VERILATOR = verilator
@@ -10,8 +10,14 @@ VSIM_FLAGS = -R
 
 # Define simulation variables
 SIM_BINARY = sim_bin
-SIM_SRC_VERILATOR = TopModule.sv Datapath.sv Controller.sv AddModule.sv MuxModule.sv ShiftModule.sv
-SIM_SRC_VSIM = $(addprefix src/,$(SIM_SRC_VERILATOR)) test/tb_SequentialMultiplier.sv
+SIM_SRC_VERILATOR = src/TopModule.sv src/Datapath.sv src/Controller.sv src/AddModule.sv src/MuxModule.sv src/ShiftModule.sv
+SIM_SRC_VSIM = $(SIM_SRC_VERILATOR) test/tb_SequentialMultiplier.sv
+SRC_SV = src/TopModule.sv src/Datapath.sv src/Controller.sv src/AddModule.sv src/MuxModule.sv src/ShiftModule.sv test/tb_SequentialMultiplier.sv
+
+COMP_OPTS_SV := --incr --relax
+
+TB_TOP = tb_SequentialMultiplier
+MODULE = TopModule
 
 # Default target
 .PHONY: all
@@ -24,7 +30,7 @@ help:
 	@echo "---------------------------"
 	@echo "Targets:"
 	@echo "  help          - Display this help message"
-	@echo "  sim TOOL=vsim - Run simulation using XSIM"
+	@echo "  sim TOOL=vsim - Run simulation using VSIM"
 	@echo "  sim TOOL=verilator - Run simulation using Verilator"
 	@echo "  clean         - Remove generated files"
 
@@ -36,12 +42,14 @@ ifeq ($(TOOL),vsim)
 	@echo "Running VSIM simulation..."
 	vlog $(SIM_SRC_VSIM)
 	vsim tb_SequentialMultiplier
+
 else ifeq ($(TOOL),verilator)
 	@echo "Running Verilator simulation..."
-	@echo "Running Verilator simulation..."
-	verilator -Wall --trace --exe --build -cc test/main.cpp src/seqmul.sv
-	./obj_dir/Vseqmul
+	verilator -Wall --trace -cc $(SIM_SRC_VERILATOR) --top-module $(MODULE) -Wno-DECLFILENAME -Wno-WIDTH --exe test/main.cpp
+	make -C obj_dir -f V$(MODULE).mk V$(MODULE)
+	./obj_dir/VTopModule
 	gtkwave waveform.vcd
+
 else
 	@echo "Invalid TOOL specified. Please use 'vsim' or 'verilator'."
 endif

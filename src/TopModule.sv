@@ -1,3 +1,4 @@
+/* verilator lint_off LATCH */
 module TopModule #(
   parameter WIDTH_M = 16,
   parameter WIDTH_P = 32
@@ -16,7 +17,6 @@ module TopModule #(
 
 logic [WIDTH_M-1:0] top_multiplier;
 logic [WIDTH_M-1:0] top_accumulator;
-// logic enable;
 
 always_comb begin
   if (dp_inst.shift_done) begin
@@ -52,5 +52,7 @@ Controller ctrl_inst(
   .mux_signal  (mux_signal)
 );
 
-
 endmodule
+
+/* verilator lint_on LATCH */
+

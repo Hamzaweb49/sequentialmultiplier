@@ -1,3 +1,5 @@
+/* verilator lint_off EOFNEWLINE */
+/* verilator lint_off UNUSED */
 module ShiftModule #(
   parameter WIDTH_M = 16
 ) (
@@ -33,3 +35,4 @@ always_ff @(posedge clk or posedge reset) begin
 end
 
 endmodule
+/* verilator lint_on UNUSED */
