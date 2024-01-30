@@ -9,7 +9,7 @@ This repository contains Verilog code for a 16-bit sequential multiplier designe
   - [Verilog Modules](#verilog-modules)
   - [Operation](#operation)
   - [Simulation](#simulation)
-    - [XSIM](#vsim)
+    - [VSIM](#Vsim)
     - [Verilator](#verilator)
   - [Cleaning up](#cleaning-up)
   - [Dependencies](#dependencies)
@@ -65,9 +65,9 @@ The sequential multiplier follows a basic binary multiplication algorithm:
 
 ## Simulation
 
-### XSIM
+### VSIM
 
-To run the simulation using XSIM, execute the following command:
+To run the simulation using VSIM, execute the following command:
 
 ```bash
 make sim TOOL=vsim
@@ -92,7 +92,7 @@ make clean
 ## Dependencies
 
 Ensure the following dependencies are installed:
-- XSIM (for XSIM simulation)
+- VSIM (for VSIM simulation)
 - Verilator (for Verilator simulation)
 - GTKWave (for viewing Verilator waveform)
 
