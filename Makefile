@@ -45,7 +45,7 @@ ifeq ($(TOOL),vsim)
 
 else ifeq ($(TOOL),verilator)
 	@echo "Running Verilator simulation..."
-	verilator -Wall --trace -cc $(SIM_SRC_VERILATOR) --top-module $(MODULE) -Wno-DECLFILENAME -Wno-WIDTH --exe test/main.cpp
+	verilator -Wall --trace --exe --build -cc test/main.cpp $(SIM_SRC_VERILATOR)
 	make -C obj_dir -f V$(MODULE).mk V$(MODULE)
 	./obj_dir/VTopModule
 	gtkwave waveform.vcd
