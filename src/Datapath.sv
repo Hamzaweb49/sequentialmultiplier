@@ -14,7 +14,7 @@ module Datapath #(
   input logic [WIDTH_M-1:0] multiplier,
   output logic [WIDTH_P-1:0] product
 );
-
+//hh
 
 logic [WIDTH_M-1:0] mux_output;
 logic [WIDTH_M-1:0] intermediate_accumulator;
