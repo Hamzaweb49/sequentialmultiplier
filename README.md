@@ -28,11 +28,14 @@ The Verilog implementation consists of the following modules:
 
 ## Diagrams
 
+![Pinout Diagram](docs/Pinout.png)
+*Figure 1: Pinout Diagram*
+
 ![Datapath Diagram](docs/Datapath.png)
-*Figure 1: Datapath Diagram*
+*Figure 2: Datapath Diagram*
 
 ![Controller Diagram](docs/Controller.png)  
-*Figure 2: Controller Diagram*
+*Figure 3: Controller Diagram*
 
 ## Verilog Modules
 
