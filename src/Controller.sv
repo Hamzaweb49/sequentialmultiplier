@@ -4,7 +4,7 @@
 /* verilator lint_off LATCH */
 module Controller #(
   parameter WIDTH_M = 16,
-  parameter WIDTH_C = 4,
+  parameter WIDTH_C = 5,
   parameter WIDTH_S = 3
 ) (   
   input logic               clk,
@@ -24,6 +24,7 @@ logic [WIDTH_S-1:0] state;
 logic [WIDTH_S-1:0] next_state;
 logic [WIDTH_C-1:0] count;
 
+
 always_ff @(posedge clk or posedge reset) begin
   if (reset) begin
     state <= S0;
@@ -35,8 +36,8 @@ end
 always_comb begin
   case (state)
     S0: begin
-      count        = 4'b0;
-      if (start && count < 16) begin
+      count        = 5'b0;
+      if (start && count < 19) begin
         add_signal   = 1'b0;
         shift_signal = 1'b0;
         mux_signal   = 1'b0;
@@ -60,14 +61,16 @@ always_comb begin
       next_state   = S4;
     end
     S4: begin
-      if (count < 16) begin
+      if (count < 19) begin
         count = count + 1;
         shift_signal = 1'b0;
         next_state   = S1;
-      end else begin
+      end 
+      else begin
         add_signal   = 1'b0;
         shift_signal = 1'b0;
         mux_signal   = 1'b0;
+        next_state = S0;
       end
     end
     default: next_state = S0;
