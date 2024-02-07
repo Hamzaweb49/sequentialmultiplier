@@ -1,6 +1,6 @@
-# 16-Bit Sequential Multiplier
+# 16-Bit Unsigned Sequential Multiplier
 
-This repository contains Verilog code for a 16-bit sequential multiplier designed to multiply two 16-bit numbers and generate a 32-bit product. The multiplier employs a basic binary multiplication algorithm, performing addition and shifting operations sequentially under the control of a finite state machine implemented in the `Controller` module.
+This repository contains Verilog code for a 16-bit unsigned sequential multiplier designed to multiply two unsigned 16-bit numbers and generate a 32-bit product. The multiplier employs a basic binary multiplication algorithm, performing addition and shifting operations sequentially under the control of a finite state machine implemented in the `Controller` module.
 
 ## Table of Contents
 - [16-Bit Sequential Multiplier](#16-bit-sequential-multiplier)
@@ -25,10 +25,12 @@ The Verilog implementation consists of the following modules:
 - **`MuxModule`:** Implements a multiplexer selecting one of two inputs based on a control signal.
 - **`Controller`:** Manages the state machine that controls the overall multiplication process.
 
+**Note:** This sequential multiplier is designed as an **unsigned** multiplier.
+
 
 ## Diagrams
 
-![Pinout Diagram](docs/Pinout.png)
+![Pinout Diagram](docs/Pinout.png)  
 *Figure 1: Pinout Diagram*
 
 ![Datapath Diagram](docs/Datapath.png)

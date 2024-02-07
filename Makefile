@@ -10,14 +10,23 @@ VSIM_FLAGS = -R
 
 # Define simulation variables
 SIM_BINARY = sim_bin
-SIM_SRC_VERILATOR = src/TopModule.sv src/Datapath.sv src/Controller.sv src/AddModule.sv src/MuxModule.sv src/ShiftModule.sv
-SIM_SRC_VSIM = $(SIM_SRC_VERILATOR) test/tb_SequentialMultiplier.sv
-SRC_SV = src/TopModule.sv src/Datapath.sv src/Controller.sv src/AddModule.sv src/MuxModule.sv src/ShiftModule.sv test/tb_SequentialMultiplier.sv
+
+SIM_SRC_VERILATOR = src/TopModule.sv \
+					src/Datapath.sv \
+					src/Controller.sv \
+					src/AddModule.sv \
+					src/MuxModule.sv \
+					src/ShiftModule.sv \
+					test/tb_SequentialMultiplier.sv
+
+SIM_SRC_VSIM = $(SIM_SRC_VERILATOR)
 
 COMP_OPTS_SV := --incr --relax
 
 TB_TOP = tb_SequentialMultiplier
-MODULE = TopModule
+MODULE = tb_SequentialMultiplier
+
+DEFINES_VER:= src/defines/verilator.svh
 
 # Default target
 .PHONY: all
@@ -45,9 +54,16 @@ ifeq ($(TOOL),vsim)
 
 else ifeq ($(TOOL),verilator)
 	@echo "Running Verilator simulation..."
-	verilator -Wall --trace --exe --build -cc test/main.cpp $(SIM_SRC_VERILATOR)
+	verilator --trace -cc $(SIM_SRC_VERILATOR) $(DEFINES_VER) \
+	  	  --top-module $(MODULE)     \
+		  -Wno-DECLFILENAME 		 \
+		  -Wno-WIDTH 				 \
+		  -Wno-REDEFMACRO			 \
+		  -Wno-INITIALDLY			 \
+		  --exe ./test/$(TB_TOP).cpp \
+		  --timing
 	make -C obj_dir -f V$(MODULE).mk V$(MODULE)
-	./obj_dir/VTopModule
+	./obj_dir/V$(MODULE)
 	gtkwave waveform.vcd
 
 else
@@ -62,3 +78,5 @@ endif
 clean:
 	@echo "Cleaning up..."
 	rm -rf $(SIM_BINARY) obj_dir
+
+# verilator -Wall --trace --exe --build -cc test/tb_SequentialMultiplier.cpp $(SIM_SRC_VERILATOR)
