@@ -3,16 +3,16 @@
 #include <cstdlib>
 #include <verilated.h>
 #include <verilated_vcd_c.h>
-#include "Vtb_SequentialMultiplier.h"
+#include "VSM_tb.h"
 
-#define MAX_SIM_TIME 166
+#define MAX_SIM_TIME 36
 vluint64_t sim_time = 0;
 
 int main(int argc, char** argv) {
     Verilated::commandArgs(argc, argv);
     Verilated::traceEverOn(true);
 
-    Vtb_SequentialMultiplier* top = new Vtb_SequentialMultiplier;
+    VSM_tb* top = new VSM_tb;
 
     VerilatedVcdC* tfp = new VerilatedVcdC;
     top->trace(tfp, 99);

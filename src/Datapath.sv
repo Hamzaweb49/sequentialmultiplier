@@ -1,65 +1,99 @@
-/* verilator lint_off UNUSED */
-module Datapath #(
-  parameter WIDTH_M = 16,
-  parameter WIDTH_P = 32
-) (
-  input logic               clk,
-  input logic               reset,
-  input logic               start,
-  input logic               add_signal,
-  input logic               shift_signal,
-  input logic               mux_signal,
-  input logic [WIDTH_M-1:0] multiplicand,
-  input logic [WIDTH_M-1:0] accumulator,
-  input logic [WIDTH_M-1:0] multiplier,
-  output logic [WIDTH_P-1:0] product
+// 180ns
+module Datapath(
+    input logic clk,           
+    input logic reset,         
+    input logic load_words,    
+    input logic add_shift, 
+    input logic shift,
+    input logic ready,
+    input logic [15:0] multiplier, 
+    input logic [15:0] multiplicand,
+    output logic [31:0] product,  
+    output logic count_check
+);
+
+logic [3:0] count;
+logic [31:0] shifted_multiplicand;
+logic [31:0] hold_multiplicand;
+logic [31:0] partial_multiplicand;
+logic [15:0] shifted_multiplier;
+logic [15:0] hold_multiplier;
+logic [15:0] partial_multiplier;
+logic [31:0] alu_result;
+logic multiplier_shift_done;
+logic multiplicand_shift_done;
+
+Counter counter_inst (
+    .clk(clk),
+    .reset(reset),
+    .add_shift(add_shift),
+    .shift(shift),
+    .count(count),
+    .count_check(count_check)
+);
+
+MultiplierLoader multiplier_loader_inst (
+    .clk(clk),
+    .reset(reset),
+    .load_words(load_words),
+    .data_in(multiplier),
+    .data_out(hold_multiplier)
+);
+
+MultiplicandLoader multiplicand_loader_inst (
+    .clk(clk),
+    .reset(reset),
+    .load_words(load_words),
+    .data_in(multiplicand),
+    .data_out(hold_multiplicand)
+);
+
+ALU alu_inst (
+    .clk(clk),
+    .reset(reset),
+    .add_shift(add_shift),
+    .A(shifted_multiplicand),
+    .result(product)
+);
+
+LeftShifter shifter_inst (
+    .clk(clk),
+    .reset(reset),
+    .shift_done(multiplicand_shift_done),
+    .shift(shift),
+    .add_shift(add_shift),
+    .data_in(partial_multiplicand),
+    .data_out(shifted_multiplicand)
+);
+
+RightShifter multiplier_shifter_inst (
+    .clk(clk),
+    .reset(reset),
+    .shift_done(multiplier_shift_done),
+    .shift(shift),
+    .add_shift(add_shift),
+    .data_in(partial_multiplier),
+    .data_out(shifted_multiplier)
 );
 
 
-logic [WIDTH_M-1:0] mux_output;
-logic [WIDTH_M-1:0] intermediate_accumulator;
-logic [WIDTH_M-1:0] shift_multiplier; 
-logic [WIDTH_M-1:0] shift_accumulator; 
-logic carryin;
-logic carryout;
-logic shiftcarry;
-logic shift_done;
-
-
-assign carryin  = 1'b0;
-assign carryout = 1'b0;
-
-
-MuxModule mux_inst (
-  .multiplicand  (multiplicand), 
-  .zeros         (16'b0),
-  .mux_signal    (mux_signal), 
-  .selected_input(mux_output)
-);
-
-AddModule add_inst (
-  .mux_out          (mux_output), 
-  .accumulator      (accumulator), 
-  .carryin          (carryin),
-  .add_signal       (add_signal), 
-  .adder_accumulator(intermediate_accumulator)
-);
-
-ShiftModule shift_inst (
-  .clk              (clk), 
-  .reset            (reset), 
-  .enable           (shift_signal),
-  .accumulator_in   (intermediate_accumulator), 
-  .multiplier       (multiplier),
-  .carry            (add_inst.carryout), 
-  .final_accumulator(shift_accumulator),
-  .final_multiplier (shift_multiplier), 
-  .shift_done       (shift_done),
-  .carry_out        (shiftcarry)
-);
-
-assign product = {shift_accumulator, shift_multiplier};
-
+always_ff @(posedge clk or posedge reset) begin
+    if (reset) begin
+        product <= 32'h00000000;
+        partial_multiplicand <= 32'h0;
+        partial_multiplier <= 16'h0;
+    end
+    if (load_words) begin
+        partial_multiplicand <= multiplicand;
+        partial_multiplier <= multiplier;
+    end
+    if (multiplicand_shift_done) begin
+        partial_multiplicand <= shifted_multiplicand;
+        partial_multiplier <= shifted_multiplier;
+    end
+    if (multiplier_shift_done) begin
+        partial_multiplier <= shifted_multiplier;
+    end
+end
 
 endmodule
-/* verilator lint_on UNUSED */
