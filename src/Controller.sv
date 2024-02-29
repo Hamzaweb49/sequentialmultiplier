@@ -1,84 +1,65 @@
-/* verilator lint_off WIDTH */
-/* verilator lint_off UNUSED */
-/* verilator lint_off UNOPTFLAT */
-/* verilator lint_off LATCH */
-module Controller #(
-  parameter WIDTH_M = 16,
-  parameter WIDTH_C = 5,
-  parameter WIDTH_S = 3
-) (   
-  input logic               clk,
-  input logic               reset,
-  input logic               start,
-  input logic [WIDTH_M-1:0] multiplier,
-  output reg                add_signal,
-  output reg                shift_signal,
-  output reg                mux_signal
+module Controller(
+  input logic clk,
+  input logic reset, 
+  input logic start,
+  input logic multiplier_lsb,
+  input logic count_check,
+  output logic load_words,
+  output logic ready,
+  output logic shift,
+  output logic add_shift
 );
 
-localparam S0 = 3'b000, S1 = 3'b001, S2 = 3'b010, 
-           S3 = 3'b011, S4 = 3'b100;
+// Define states
+typedef enum logic [1:0] {
+    S0, // Idle
+    S1, // Load and Shift
+    S2  // Flush
+} state_t;
 
+state_t current_state, next_state;
 
-logic [WIDTH_S-1:0] state;
-logic [WIDTH_S-1:0] next_state;
-logic [WIDTH_C-1:0] count;
-
-
+// Registers for storing state
 always_ff @(posedge clk or posedge reset) begin
-  if (reset) begin
-    state <= S0;
-  end else begin
-    state <= next_state;
-  end
+    if (reset) begin
+        current_state <= S0;
+    end else begin
+        current_state <= next_state;
+    end
 end
 
+// State transition and output logic
 always_comb begin
-  case (state)
-    S0: begin
-      count        = 5'b0;
-      if (start && count < 19) begin
-        add_signal   = 1'b0;
-        shift_signal = 1'b0;
-        mux_signal   = 1'b0;
-        next_state   = S1;
-      end
-    end
-    S1: begin
-      shift_signal = 1'b0;
-      add_signal   = 1'b0;
-      mux_signal   = multiplier[0];
-      next_state   = S2;
-    end
-    S2: begin
-      shift_signal = 1'b0;
-      add_signal   = 1'b1;
-      next_state   = S3;
-    end
-    S3: begin
-      add_signal   = 1'b0;
-      shift_signal = 1'b1;
-      next_state   = S4;
-    end
-    S4: begin
-      if (count < 19) begin
-        count = count + 1;
-        shift_signal = 1'b0;
-        next_state   = S1;
-      end 
-      else begin
-        add_signal   = 1'b0;
-        shift_signal = 1'b0;
-        mux_signal   = 1'b0;
-        next_state = S0;
-      end
-    end
-    default: next_state = S0;
-  endcase
+    case (current_state)
+        S0: begin
+            next_state = start ? S1 : S0; // Transition to S1 if start signal is received
+            load_words = start;
+            ready = start;
+            shift = 1'b0;
+            add_shift = 1'b0;
+        end
+        S1: begin
+            next_state = count_check ? S2 : S1; // Transition to S2 if count_check is asserted
+            load_words = 1'b0;
+            ready = 1'b0;
+            shift = !multiplier_lsb && !count_check;
+            add_shift = multiplier_lsb && !count_check;
+        end
+        S2: begin
+            next_state = start ? S1 : S0; // Transition to S1 if start signal is received
+            load_words = start;
+            ready = !start;
+            shift = 1'b0;
+            add_shift = 1'b0;
+        end
+        default: begin
+            next_state = S0;
+            load_words = 1'b0;
+            ready = 1'b0;
+            shift = 1'b0;
+            add_shift = 1'b0;
+        end
+    endcase
 end
 
 endmodule
-/* verilator lint_on LATCH */
-/* verilator lint_on UNOPTFLAT */
-/* verilator lint_on WIDTH */
-/* verilator lint_on UNUSED */

@@ -11,20 +11,23 @@ VSIM_FLAGS = -R
 # Define simulation variables
 SIM_BINARY = sim_bin
 
-SIM_SRC_VERILATOR = src/TopModule.sv \
+SIM_SRC_VERILATOR = src/SM.sv \
 					src/Datapath.sv \
 					src/Controller.sv \
-					src/AddModule.sv \
-					src/MuxModule.sv \
-					src/ShiftModule.sv \
-					test/tb_SequentialMultiplier.sv
+					src/ALU.sv \
+					src/Counter.sv \
+					src/LeftShifter.sv \
+					src/RightShifter.sv \
+					src/MultiplierLoader.sv \
+					src/MultiplicandLoader.sv \
+					test/SM_tb.sv
 
 SIM_SRC_VSIM = $(SIM_SRC_VERILATOR)
 
 COMP_OPTS_SV := --incr --relax
 
-TB_TOP = tb_SequentialMultiplier
-MODULE = tb_SequentialMultiplier
+TB_TOP = SM_tb
+MODULE = SM_tb
 
 DEFINES_VER:= src/defines/verilator.svh
 
@@ -50,7 +53,7 @@ ifdef TOOL
 ifeq ($(TOOL),vsim)
 	@echo "Running VSIM simulation..."
 	vlog $(SIM_SRC_VSIM)
-	vsim tb_SequentialMultiplier
+	vsim SM_tb
 
 else ifeq ($(TOOL),verilator)
 	@echo "Running Verilator simulation..."
