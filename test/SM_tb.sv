@@ -6,17 +6,15 @@
 module SM_tb(
     `ifdef VERILATOR
     input logic clk,
-    input logic reset,
-    input logic start
     `endif
 );
 
     // Declare signals
     `ifndef VERILATOR
     logic                   clk;
-    logic                   reset;
-    logic                   start
     `endif;
+    logic                   reset;
+    logic                   start;
     logic ready;
     logic [15:0] multiplicand;
     logic [15:0] multiplier;
@@ -42,17 +40,17 @@ end
 
     // Initial values
     initial begin
-        `ifndef VERILATOR
         reset = 1;
         start = 0;
-        `endif
-        multiplicand = 16'h1234;
-        multiplier = 16'h0040;
-        `ifndef VERILATOR
-        #10 reset = 0; 
-        #10 start = 1;
-        `endif
-        #160 $finish;
+        multiplicand = $random;
+        multiplier = $random;
+        @(posedge clk); 
+        reset = 0;
+        @(posedge clk);
+        start = 1;
+        @(posedge clk);
+        start = 0;
+        #170 $finish;
     end
 
 endmodule
