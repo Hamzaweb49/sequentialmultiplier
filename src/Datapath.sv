@@ -15,6 +15,7 @@ module Datapath(
 logic [3:0] count;
 logic [31:0] shifted_multiplicand;
 logic [15:0] shifted_multiplier;
+logic [31:0] alu_result;
 
 Counter counter_inst (
     .clk(clk),
@@ -35,15 +36,12 @@ ALU alu_inst (
 
 
 // Output product
-always_ff @(posedge clk or posedge reset) begin
-    if (reset) begin
-        product <= 32'h00000000;
-    end else if (add_shift) begin
-        product <= alu_result; 
-        shifted_multiplicand <= shifted_multiplicand << 1;
-        shifted_multiplier <= shifted_multiplier >> 1;
-    end
-end
+// always_ff @(posedge clk or posedge reset) begin
+//     end else if (add_shift) begin
+//         shifted_multiplicand <= shifted_multiplicand << 1;
+//         shifted_multiplier <= shifted_multiplier >> 1;
+//     end
+// end
 
 // Multiplicand and multiplier shifting
 always_ff @(posedge clk or posedge reset) begin
@@ -53,7 +51,7 @@ always_ff @(posedge clk or posedge reset) begin
     end else if (load_words) begin
         shifted_multiplicand <= {16'b0,multiplicand};
         shifted_multiplier <= multiplier;
-    end else if (shift) begin
+    end else if (shift || add_shift) begin
         shifted_multiplicand <= shifted_multiplicand << 1;
         shifted_multiplier <= shifted_multiplier >> 1;
     end
