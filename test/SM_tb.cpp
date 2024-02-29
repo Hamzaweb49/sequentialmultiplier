@@ -5,7 +5,7 @@
 #include <verilated_vcd_c.h>
 #include "VSM_tb.h"
 
-#define MAX_SIM_TIME 36
+#define MAX_SIM_TIME 40
 vluint64_t sim_time = 0;
 
 int main(int argc, char** argv) {
@@ -19,15 +19,6 @@ int main(int argc, char** argv) {
     tfp->open("waveform.vcd");
 
     while (!Verilated::gotFinish() && sim_time < MAX_SIM_TIME) {
-        if (sim_time < 4){
-            top->reset = 1;
-            top->start = 0;
-        }
-        
-        if (sim_time == 4) {
-            top->reset = 0;
-            top->start = 1;
-        }
       
         top->clk ^= 1;
 

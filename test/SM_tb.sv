@@ -2,6 +2,7 @@
 /* verilator lint_off INFINITELOOP */
 /* verilator lint_off UNUSED */
 // verilator lint_off BLKANDNBLK
+/* verilator lint_off NULLPORT */
 
 module SM_tb(
     `ifdef VERILATOR
@@ -55,6 +56,7 @@ end
 
 endmodule
 
+/* verilator lint_on NULLPORT */
 /* verilator lint_on UNUSED */
 // verilator lint_on BLKANDNBLK 
 /* verilator lint_on STMTDLY */
