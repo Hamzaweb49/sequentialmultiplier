@@ -1,7 +1,3 @@
-/* verilator lint_off STMTDLY */
-/* verilator lint_off INFINITELOOP */
-/* verilator lint_off UNUSED */
-// verilator lint_off BLKANDNBLK
 /* verilator lint_off NULLPORT */
 
 module SM_tb(
@@ -41,6 +37,7 @@ end
 
     // Initial values
     initial begin
+        repeat (65536) begin 
         reset = 1;
         start = 0;
         multiplicand = $random;
@@ -51,13 +48,19 @@ end
         start = 1;
         @(posedge clk);
         start = 0;
-        #170 $finish;
+        while (!ready) begin
+            @(posedge clk);
+        end
+        if (product == multiplicand * multiplier) begin
+            $display("Product calculated successfuly!");
+        end 
+        `ifndef VERILATOR
+        #160;
+        `endif
+        end
+        #200 $finish;
     end
 
 endmodule
 
 /* verilator lint_on NULLPORT */
-/* verilator lint_on UNUSED */
-// verilator lint_on BLKANDNBLK 
-/* verilator lint_on STMTDLY */
-/* verilator lint_on INFINITELOOP */
