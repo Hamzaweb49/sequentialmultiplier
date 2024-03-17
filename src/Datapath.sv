@@ -24,8 +24,8 @@ module Datapath #(
 
 
   // Counter
-  always_ff @(posedge clk or posedge reset) begin
-    if (reset) begin
+  always_ff @(posedge clk or negedge reset) begin
+    if (!reset) begin
       count <= 4'b0000;
     end else if (add_shift || shift) begin
       count <= (count == 15) ? 4'b0000 : count + 1;
@@ -38,8 +38,8 @@ module Datapath #(
   assign empty = (~|multiplier) || (~|multiplicand);
 
   // ALU
-  always_ff @(posedge clk or posedge reset) begin
-    if (reset) begin
+  always_ff @(posedge clk or negedge reset) begin
+    if (!reset) begin
       product <= 32'h00000000;
     end else if(flush) begin
       product <= 32'h00000000;
@@ -49,8 +49,8 @@ module Datapath #(
   end
 
   // Load and Left Shift Multiplicand
-  always_ff @(posedge clk or posedge reset) begin
-    if (reset) begin
+  always_ff @(posedge clk or negedge reset) begin
+    if (!reset) begin
       shifted_multiplicand <= 32'h00000000;
     end else if (load_words) begin
       shifted_multiplicand <= {16'b0,multiplicand};
@@ -60,8 +60,8 @@ module Datapath #(
   end
   
   // Load and Left Shift Multiplier
-  always_ff @(posedge clk or posedge reset) begin
-    if (reset) begin
+  always_ff @(posedge clk or negedge reset) begin
+    if (!reset) begin
       shifted_multiplier <= 32'h00000000;
     end else if (load_words) begin
       shifted_multiplier <= multiplier;

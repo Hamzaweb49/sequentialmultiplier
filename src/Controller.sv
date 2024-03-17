@@ -25,8 +25,8 @@ typedef enum logic [1:0] {
 state_t current_state, next_state;
 
 // Registers for storing state
-always_ff @(posedge clk or posedge reset) begin
-  if (reset) begin
+always_ff @(posedge clk or negedge reset) begin
+  if (!reset) begin
     current_state <= S0;
   end else begin
     current_state <= next_state;

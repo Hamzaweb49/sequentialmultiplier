@@ -38,12 +38,12 @@ end
     // Initial values
     initial begin
         repeat (65536) begin 
-        reset = 1;
+        reset = 0;
         start = 0;
         multiplicand = $random;
         multiplier = $random;
         @(posedge clk); 
-        reset = 0;
+        reset = 1;
         @(posedge clk);
         start = 1;
         @(posedge clk);

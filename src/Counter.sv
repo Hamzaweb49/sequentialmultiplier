@@ -11,8 +11,8 @@ module Counter #(
   output logic               count_check   
 );
 
-always_ff @(posedge clk or posedge reset) begin
-  if (reset) begin
+always_ff @(posedge clk or negedge reset) begin
+  if (!reset) begin
     count <= 4'b0000;
   end else if (add_shift || shift) begin
     count <= (count == 15) ? 4'b0000 : count + 1;

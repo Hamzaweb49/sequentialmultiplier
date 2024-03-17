@@ -11,8 +11,8 @@ module ALU #(
   output logic [WIDTH_P-1:0] result 
 );
 
-always_ff @(posedge clk or posedge reset) begin
-  if (reset) begin
+always_ff @(posedge clk or negedge reset) begin
+  if (!reset) begin
     result <= 32'h00000000;
   end else if(flush) begin
     result <= 32'h00000000;
