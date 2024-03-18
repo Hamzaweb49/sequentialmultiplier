@@ -35,7 +35,7 @@ module Datapath #(
   assign count_check = (count == 4'b1111);
 
   //Check if any of the multiplier or multiplicand is zero
-  assign empty = (~|multiplier) || (~|multiplicand);
+  assign empty = ((multiplier == 0) || (multiplicand == 0));
 
   // ALU
   always_ff @(posedge clk or negedge reset) begin
